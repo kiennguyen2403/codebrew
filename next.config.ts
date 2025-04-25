@@ -10,6 +10,9 @@ const nextConfig: NextConfig = {
     "@mantine/form",
     "@mantine/notifications",
   ],
+  images: {
+    domains: ["fljnffgnpjpfnzqnewxj.supabase.co"],
+  },
 };
 
 export default nextConfig;

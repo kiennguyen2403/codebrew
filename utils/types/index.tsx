@@ -1,14 +1,18 @@
-interface User {
+export interface User {
   id: string;
   name: string;
-  location: string;
+  location: {
+    lon: number;
+    lat: number;
+  };
   avatar: string;
   gender: string;
   hobbies: string[];
   plantCount: number;
+  whatsappNumber: string;
 }
 
-interface Plant {
+export interface Plant {
   id: number;
   name: string;
   description: string;
@@ -19,12 +23,24 @@ interface Plant {
   seedPrice: string;
 }
 
-interface UserPlant extends Plant {
+export interface UserPlant extends Plant {
   plantedDate: string;
 }
 
-interface Garden {
+export interface Garden {
   id: number;
   userId: string;
   plants: Plant[];
+}
+
+export interface RegisterUser {
+  name: string;
+  gender: string;
+  whatsappNumber: string;
+  location: {
+    lon: number;
+    lat: number;
+  };
+  hobbies: string[];
+  avatar: string;
 }

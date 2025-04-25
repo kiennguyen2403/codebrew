@@ -4,6 +4,7 @@ import styled, { keyframes } from "styled-components";
 import NeighborInfoCard from "./InfoCard";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { User } from "@/utils/types";
 
 interface WalkingAvatarProps extends User {
   initialwalkingprogress: number;

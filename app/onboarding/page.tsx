@@ -1,5 +1,9 @@
+"use client";
+
+import Onboarding from "@/components/section/Onboarding";
+
 const OnboardingPage = () => {
-  return <div>OnboardingPage</div>;
+  return <Onboarding />;
 };
 
 export default OnboardingPage;
