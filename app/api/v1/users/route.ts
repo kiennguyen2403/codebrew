@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
         const userData = {
             clerk_id: body.clerk_id,
             hobbies: body.hobbies,
-            location: wktLocation, // 👈 converted to WKT format
+            location: wktLocation,
             hobby_embedding: hobbyEmbedding,
             username: body.username,
             url: body.url,

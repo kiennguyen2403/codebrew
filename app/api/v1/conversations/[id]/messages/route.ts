@@ -4,7 +4,7 @@ import { createClient } from "@/utils/supabase/server";
 
 export async function POST(
     request: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     try {
         const { userId } = getAuth(request);
@@ -12,7 +12,7 @@ export async function POST(
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
-        const { id: conversationId } = params;
+        const { id: conversationId } = await params;
         if (!conversationId) {
             return new NextResponse("Missing conversation ID", { status: 400 });
         }
