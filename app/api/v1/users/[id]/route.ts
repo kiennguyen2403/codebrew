@@ -1,13 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from '@clerk/nextjs/server';
 import { createClient } from "@/utils/supabase/server";
+import wkx from "wkx";
 
 export async function GET(
     request: NextRequest,
     { params }: { params: Promise<{ id: string }> }
 ) {
     try {
-        const { userId, getToken } = await auth();
+        const { userId } = await auth();
+
         if (!userId) {
             return new Response('Unauthorized', { status: 401 });
         }
@@ -43,20 +45,22 @@ export async function GET(
                     return new NextResponse("User missing hobbies or location", { status: 400 });
                 }
 
-                // Extract current user's location coordinates
-                const location = currentUser.location as { type: string; coordinates: number[] };
-                if (!location || location.type !== "Point" || !location.coordinates) {
+                // Parse WKB hex string to GeoJSON using wkx
+                const wkbHexCurrent = currentUser.location as string;
+                const geometryCurrent = wkx.Geometry.parse(Buffer.from(wkbHexCurrent, "hex"));
+                const locationCurrent = geometryCurrent.toGeoJSON() as { type: string; coordinates: number[] };
+                if (!locationCurrent || locationCurrent.type !== "Point" || !locationCurrent.coordinates) {
                     return new NextResponse("Invalid user location", { status: 400 });
                 }
-                const [currentLon, currentLat] = location.coordinates;
+                const [currentLon, currentLat] = locationCurrent.coordinates;
 
                 // Use raw SQL for vector search with pgvector
                 const { data: similarUsers, error: searchError } = await supabase
                     .rpc("match_users_by_hobbies", {
                         user_embedding: currentUser.hobby_embedding,
                         user_id: currentUser.id,
-                        distance_threshold: 0.7, // Cosine distance threshold (0 to 1, lower is more similar)
-                        max_results: 10, // Limit to top 10 matches
+                        distance_threshold: 0.7,
+                        max_results: 10,
                     });
 
                 if (searchError) {
@@ -68,7 +72,6 @@ export async function GET(
                     return NextResponse.json([], { status: 200 });
                 }
 
-                // Fetch additional user details and calculate location distance
                 const userIds = similarUsers.map((u: any) => u.id);
                 const { data: recommendedUsers, error: fetchError } = await supabase
                     .from("users")
@@ -82,7 +85,9 @@ export async function GET(
 
                 // Calculate distances and sort
                 const recommendations = recommendedUsers.map((user: any) => {
-                    const userLocation = user.location as { type: string; coordinates: number[] };
+                    const wkbHex = user.location as string;
+                    const geometry = wkx.Geometry.parse(Buffer.from(wkbHex, "hex"));
+                    const userLocation = geometry.toGeoJSON() as { type: string; coordinates: number[] };
                     const [lon, lat] = userLocation.coordinates || [0, 0];
 
                     // Calculate distance using ST_Distance (in meters)
@@ -102,23 +107,18 @@ export async function GET(
                     };
                 });
 
-                // Fetch distances asynchronously
                 const finalRecommendations = await Promise.all(
                     recommendations.map(async (rec: any) => {
                         const { data: distance } = await rec.distance;
                         return {
                             ...rec,
-                            distance: distance || Number.MAX_VALUE, // Fallback if distance calculation fails
+                            distance: distance || Number.MAX_VALUE,
                         };
                     })
                 );
 
-                // Sort by hobby similarity (from vector search) and then by distance
-                finalRecommendations.sort((a, b) => {
-                    // First sort by hobby similarity (already ordered by pgvector)
-                    // Then by distance
-                    return a.distance - b.distance;
-                });
+                // Sort by distance (since similarUsers is already sorted by hobby similarity)
+                finalRecommendations.sort((a, b) => a.distance - b.distance);
 
                 // Limit to top 5 recommendations
                 const topRecommendations = finalRecommendations.slice(0, 5);
@@ -146,4 +146,3 @@ export async function GET(
         });
     }
 }
-
