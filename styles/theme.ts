@@ -1,5 +1,4 @@
 import { createTheme } from "@mantine/core";
-import { DefaultTheme } from "styled-components";
 
 // Mantine theme
 export const mantineTheme = createTheme({
@@ -50,7 +49,7 @@ export const mantineTheme = createTheme({
 });
 
 // Styled Components theme
-export const styledTheme: DefaultTheme = {
+export const styledTheme = {
   colors: {
     primary: "#4B7A4E",
     secondary: "#E5E6BE",
@@ -79,3 +78,5 @@ export const styledTheme: DefaultTheme = {
     xl: "1200px",
   },
 };
+
+export type ThemeType = typeof styledTheme; // This is the type definition for my theme object.
