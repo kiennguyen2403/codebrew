@@ -1,14 +1,25 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import WalkingAvatar from "./WalkingAvatar";
 import DUMMY_USER from "@/utils/dummy";
 import { getRandomNumber } from "@/utils/common-function";
-
-const SCENERY_DAY = "/images/scenery/background_afternoon.png";
-const SCENERY_NIGHT = "/images/scenery/background_night.png";
-const SCENERY_NOON = "/images/scenery/background_noon.png";
+import LocationMenu from "./LocationMenu";
+import { Box, Text } from "@mantine/core";
+import { RootState } from "@/store";
+import { useSelector } from "react-redux";
+const SCENERY_DAY =
+  "https://fljnffgnpjpfnzqnewxj.supabase.co/storage/v1/object/public/images//background_day.png";
+const SCENERY_NIGHT =
+  "https://fljnffgnpjpfnzqnewxj.supabase.co/storage/v1/object/public/images//background_night.png";
+const SCENERY_NOON =
+  "https://fljnffgnpjpfnzqnewxj.supabase.co/storage/v1/object/public/images//background_afternoon.png";
 
 const ExploreCanvas = () => {
+  const { neighbours, loading, error } = useSelector(
+    (state: RootState) => state.explore
+  );
   const [currScenery, setCurrScenery] = useState<string>(SCENERY_DAY);
 
   useEffect(() => {
@@ -25,6 +36,48 @@ const ExploreCanvas = () => {
     updateScenery();
   }, []);
 
+  const renderCanvasContent = () => {
+    if (loading) {
+      return (
+        <Box
+          bg={"secondary.3"}
+          p={"md"}
+          w={"fit-content"}
+          style={{
+            boxShadow: "4px 4px 0px 0px rgba(0, 0, 0, 0.5)",
+            transform: "translateY(-2px)",
+          }}
+        >
+          <Text>Loading Nearby Farmers...</Text>
+        </Box>
+      );
+    }
+    if (error) {
+      return (
+        <Box
+          bg={"secondary.3"}
+          p={"md"}
+          w={"fit-content"}
+          style={{
+            boxShadow: "4px 4px 0px 0px rgba(0, 0, 0, 0.5)",
+            transform: "translateY(-2px)",
+          }}
+        >
+          <Text>Error: {error}</Text>
+        </Box>
+      );
+    }
+    if (neighbours && neighbours.length > 0) {
+      return neighbours.map((neighbour, index) => (
+        <WalkingAvatar
+          key={neighbour.id || index}
+          {...neighbour}
+          initialwalkingprogress={getRandomNumber(0, 60)}
+        />
+      ));
+    }
+  };
+
   return (
     <ExploreCanvasContainer
       style={{
@@ -32,8 +85,10 @@ const ExploreCanvas = () => {
         backgroundPosition: "bottom",
       }}
     >
-      {/* TODO: location card and distance picker */}
-      {/* TODO: neighbors walking npcs */}
+      <LocationMenuContainer>
+        <LocationMenu />
+      </LocationMenuContainer>
+      {renderCanvasContent()}
       <WalkingAvatar
         {...DUMMY_USER}
         initialwalkingprogress={getRandomNumber(0, 60)}
@@ -44,6 +99,12 @@ const ExploreCanvas = () => {
 
 export default ExploreCanvas;
 
+const LocationMenuContainer = styled.div`
+  position: absolute;
+  top: 2em;
+  left: 2em;
+`;
+
 const ExploreCanvasContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -53,4 +114,8 @@ const ExploreCanvasContainer = styled.div`
   height: 85vh;
   position: relative;
   overflow: hidden;
+
+  @media (max-width: 768px) {
+    height: 100vh;
+  }
 `;

@@ -1,5 +1,5 @@
 import { getTitleFromPlantCount } from "@/utils/common-function";
-import { Box, Stack, Text } from "@mantine/core";
+import { Anchor, Box, Stack, Text } from "@mantine/core";
 
 interface NeighborInfoCardProps {
   id: string;
@@ -15,13 +15,19 @@ const NeighborInfoCard = ({
   hobbies,
 }: NeighborInfoCardProps) => {
   return (
-    <Box p={"md"} bg={"#E5E6BECC"} className="info-card">
-      <Stack>
-        <Text>{name}</Text>
-        <Text>{getTitleFromPlantCount(plantCount)}</Text>
+    <Box p={"md"} bg={"#E5E6BECC"} className="info-card" w={"16em"}>
+      <Stack gap={"2px"} ta={"center"}>
+        <Text fw={700} size="lg">
+          {name}
+        </Text>
+        <Text c={"primary"}>{getTitleFromPlantCount(plantCount)}</Text>
+        <Text c={"dimmed"} size="xs">
+          {"Hobbies"}
+        </Text>
         <Text>{hobbies.join(", ")}</Text>
-        <Text>{name}</Text>
-        <Text>{name}</Text>
+        <Anchor href={`/garden/${id}`} fw={700}>
+          {`"Click to See Garden"`}
+        </Anchor>
       </Stack>
     </Box>
   );
