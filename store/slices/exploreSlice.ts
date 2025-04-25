@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch } from "..";
+import { User } from "@/utils/types";
 
 interface ExploreState {
   loading: boolean;

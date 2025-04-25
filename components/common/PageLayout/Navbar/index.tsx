@@ -13,7 +13,7 @@ const Navbar = () => {
           justify={"space-between"}
           pl={"lg"}
         >
-          <LogoContainer>
+          <LogoContainer href="/">
             <Image
               src="/images/urbanteria_text_logo.png"
               alt="logo"
@@ -55,7 +55,7 @@ const OutlineBox = styled.div`
   border: 1px solid black;
 `;
 
-const LogoContainer = styled.div`
+const LogoContainer = styled.a`
   display: flex;
   justify-content: center;
   align-items: center;
