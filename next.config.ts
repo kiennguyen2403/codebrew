@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
     "@mantine/hooks",
     "@mantine/form",
     "@mantine/notifications",
+    "@mantine/dates",
   ],
   images: {
     domains: ["fljnffgnpjpfnzqnewxj.supabase.co"],

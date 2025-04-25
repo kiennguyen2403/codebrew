@@ -10,7 +10,7 @@ import { registerUser } from "@/store/slices/authSlice";
 const Onboarding = () => {
   const dispatch: AppDispatch = useDispatch();
 
-  const [currStep, setCurrStep] = useState(2);
+  const [currStep, setCurrStep] = useState(1);
   const [validStep1, setValidStep1] = useState(false);
 
   const [onboardingData, setOnboardingData] = useState<RegisterUser>({
