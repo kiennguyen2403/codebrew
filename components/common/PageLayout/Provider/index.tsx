@@ -5,6 +5,7 @@ import { MantineProvider } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
 import { Provider } from "react-redux";
 import { ThemeProvider } from "styled-components";
+import "@mantine/dates/styles.css";
 
 const ProjectProvider = ({ children }: { children: React.ReactNode }) => {
   return (

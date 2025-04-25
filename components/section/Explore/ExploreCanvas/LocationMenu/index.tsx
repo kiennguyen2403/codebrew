@@ -20,7 +20,7 @@ const LocationMenu = () => {
   const handleDistanceChange = (value: string) => {
     setCurrDistance(Number(value));
     if (lat && lon) {
-      dispatch(fetchNeighbours(lat, lon, Number(value)));
+      // dispatch(fetchNeighbours(lat, lon, Number(value)));
     }
   };
 

@@ -19,7 +19,7 @@ export interface Plant {
   image: string;
   weather: string;
   location: string;
-  growTime: string;
+  growTime: number;
   seedPrice: string;
 }
 

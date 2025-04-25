@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import WalkingAvatar from "./WalkingAvatar";
-import DUMMY_USER from "@/utils/dummy";
+import { DUMMY_USERS } from "@/utils/dummy";
 import { getRandomNumber } from "@/utils/common-function";
 import LocationMenu from "./LocationMenu";
 import { Box, Text } from "@mantine/core";
@@ -17,9 +17,12 @@ const SCENERY_NOON =
   "https://fljnffgnpjpfnzqnewxj.supabase.co/storage/v1/object/public/images//background_afternoon.png";
 
 const ExploreCanvas = () => {
-  const { neighbours, loading, error } = useSelector(
-    (state: RootState) => state.explore
-  );
+  const neighbours = DUMMY_USERS;
+  const {
+    // neighbours,
+    loading,
+    error,
+  } = useSelector((state: RootState) => state.explore);
   const [currScenery, setCurrScenery] = useState<string>(SCENERY_DAY);
 
   useEffect(() => {
@@ -67,6 +70,7 @@ const ExploreCanvas = () => {
         </Box>
       );
     }
+
     if (neighbours && neighbours.length > 0) {
       return neighbours.map((neighbour, index) => (
         <WalkingAvatar
@@ -89,10 +93,6 @@ const ExploreCanvas = () => {
         <LocationMenu />
       </LocationMenuContainer>
       {renderCanvasContent()}
-      <WalkingAvatar
-        {...DUMMY_USER}
-        initialwalkingprogress={getRandomNumber(0, 60)}
-      />
     </ExploreCanvasContainer>
   );
 };
