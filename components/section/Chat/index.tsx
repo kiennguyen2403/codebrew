@@ -1,9 +1,45 @@
-import React, { useState } from "react";
+"use client";
+import { createClient } from "@/utils/supabase/client";
+import { RealtimeChannel } from "@supabase/supabase-js";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
-const ChatInterface = () => {
+const ChatInterface = ({ id }: { id: string }) => {
   const [messages, setMessages] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState("");
+  const channel = useRef<RealtimeChannel | null>(null);
+
+  useEffect(() => {
+    if (channel.current || id) return;
+    const client = createClient();
+    channel.current = client.channel(`conversation ${id}`, {
+      config: {
+        broadcast: {
+          self: true,
+        },
+      },
+    });
+
+    channel.current.on(
+      "postgres_changes",
+      {
+        event: "INSERT",
+        schema: "public",
+        table: "messages",
+        filter: `conversation_id=eq.${id}`,
+      },
+      (payload) => {
+        setMessages([...messages, payload.new.content]);
+      }
+    );
+
+    return () => {
+      if (channel.current) {
+        channel.current.unsubscribe();
+        channel.current = null;
+      }
+    };
+  }, []);
 
   const handleSendMessage = () => {
     if (inputValue.trim()) {
