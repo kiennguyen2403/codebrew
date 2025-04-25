@@ -17,12 +17,10 @@ const SCENERY_NOON =
   "https://fljnffgnpjpfnzqnewxj.supabase.co/storage/v1/object/public/images//background_afternoon.png";
 
 const ExploreCanvas = () => {
-  const neighbours = DUMMY_USERS;
-  const {
-    // neighbours,
-    loading,
-    error,
-  } = useSelector((state: RootState) => state.explore);
+  // const neighbours = DUMMY_USERS;
+  const { neighbours, loading, error } = useSelector(
+    (state: RootState) => state.explore
+  );
   const [currScenery, setCurrScenery] = useState<string>(SCENERY_DAY);
 
   useEffect(() => {

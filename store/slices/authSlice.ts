@@ -39,17 +39,16 @@ const authSlice = createSlice({
 export const registerUser = createAsyncThunk(
   "auth/registerUser",
   async (
-    { clerkId, userData }: { clerkId: string; userData: RegisterUser },
+    { userData, onSuccess }: { userData: RegisterUser; onSuccess: () => void },
     { rejectWithValue }
   ) => {
     try {
-      const response = await fetch("/register", {
+      const response = await fetch("/api/v1/users", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          clerk_id: clerkId,
           name: userData.name,
           gender: userData.gender,
           whatsapp: userData.whatsappNumber,
@@ -58,13 +57,15 @@ export const registerUser = createAsyncThunk(
             coordinates: [userData.location.lon, userData.location.lat],
           },
           hobbies: userData.hobbies,
-          avatar: userData.avatar,
+          url: userData.avatar,
         }),
       });
       if (!response.ok) {
         throw new Error("Failed to register user");
       }
-      return await response.json();
+      const data = await response.json();
+      onSuccess(); // Call the onSuccess function
+      return data;
     } catch (error) {
       if (error instanceof Error) {
         return rejectWithValue(error.message);

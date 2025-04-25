@@ -25,6 +25,7 @@ export interface Plant {
 
 export interface UserPlant extends Plant {
   plantedDate: string;
+  quantity: number;
 }
 
 export interface Garden {

@@ -31,7 +31,7 @@ const AddPlantModal = () => {
     if (selectedPlant && plantedAt && quantity) {
       dispatch(
         addPlantToGarden(
-          selectedPlant?.id,
+          selectedPlant,
           plantedAt.toISOString(),
           quantity,
           gardenId

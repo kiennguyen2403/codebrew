@@ -1,4 +1,4 @@
-import { Plant, User } from "@/utils/types";
+import { Plant, User, UserPlant } from "@/utils/types";
 import { AVATAR_IMAGES } from "./constant";
 
 export const DUMMY_USERS: User[] = [
@@ -137,5 +137,47 @@ export const DUMMY_RECOMMENDED_PLANTS: Plant[] = [
     location: "Desert",
     growTime: 30,
     seedPrice: "$4.00",
+  },
+];
+
+export const DUMMY_USER_PLANTS: UserPlant[] = [
+  {
+    id: 1,
+    name: "Lettuce",
+    description: "A leafy green vegetable, perfect for salads",
+    image:
+      "https://fljnffgnpjpfnzqnewxj.supabase.co/storage/v1/object/public/images/plants%20/Lettuce.png",
+    weather: "Temperate",
+    location: "Garden",
+    growTime: 30,
+    seedPrice: "$2.50",
+    plantedDate: "2024-01-01",
+    quantity: 10,
+  },
+  {
+    id: 2,
+    name: "Spinach",
+    description: "A nutrient-rich leafy green, ideal for healthy meals",
+    image:
+      "https://fljnffgnpjpfnzqnewxj.supabase.co/storage/v1/object/public/images/plants%20/Spinach.png",
+    weather: "Cool",
+    location: "Field",
+    growTime: 30,
+    seedPrice: "$1.75",
+    plantedDate: "2024-01-01",
+    quantity: 10,
+  },
+  {
+    id: 3,
+    name: "Spinach",
+    description: "A nutrient-rich leafy green, ideal for healthy meals",
+    image:
+      "https://fljnffgnpjpfnzqnewxj.supabase.co/storage/v1/object/public/images/plants%20/Spinach.png",
+    weather: "Cool",
+    location: "Field",
+    growTime: 30,
+    seedPrice: "$1.75",
+    plantedDate: "2024-01-01",
+    quantity: 10,
   },
 ];

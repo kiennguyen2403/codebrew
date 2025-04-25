@@ -1,4 +1,4 @@
-import { Plant } from "@/utils/types";
+import { UserPlant } from "@/utils/types";
 import { Button, Text } from "@mantine/core";
 import Image from "next/image";
 import styled from "styled-components";
@@ -7,14 +7,15 @@ import { setShowAddPlantModal } from "@/store/slices/gardenSlice";
 import { useDispatch } from "react-redux";
 
 interface PlotBlockProps {
-  plant?: Plant;
+  plant?: UserPlant;
   handleSeePlant: () => void;
+  empty?: boolean;
 }
 
 const PLOT_BLOCK_IMAGE =
   "https://fljnffgnpjpfnzqnewxj.supabase.co/storage/v1/object/public/images//plot_block.png";
 
-const PlotBlock = ({ plant, handleSeePlant }: PlotBlockProps) => {
+const PlotBlock = ({ plant, handleSeePlant, empty = true }: PlotBlockProps) => {
   const dispatch: AppDispatch = useDispatch();
 
   const handleAddPlant = () => {
@@ -22,10 +23,16 @@ const PlotBlock = ({ plant, handleSeePlant }: PlotBlockProps) => {
   };
 
   return (
-    <PlotBlockContainer empty={Boolean(plant).toString()}>
+    <PlotBlockContainer empty={empty.toString()}>
       {plant && (
         <PlantImageContainer onClick={handleSeePlant}>
-          <Image src={plant.image} width={120} height={120} alt={plant.name} />
+          <Image
+            src={plant.image}
+            width={120}
+            height={120}
+            alt={plant.name}
+            style={{ objectFit: "contain" }}
+          />
         </PlantImageContainer>
       )}
       {!plant && (
@@ -48,7 +55,6 @@ const PlotBlockContainer = styled.div<{ empty: string }>`
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  filter: ${({ empty }) => (empty === "true" ? "brightness(-25%)" : "none")};
 
   outline: 8px solid ${({ theme }) => theme.colors.secondary};
 
@@ -60,8 +66,20 @@ const PlotBlockContainer = styled.div<{ empty: string }>`
 const PlantImageContainer = styled.div`
   width: 80%;
   height: 80%;
-  background-color: white;
   border-radius: 10px;
   overflow: hidden;
   z-index: 2;
+
+  & > img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      filter: brightness(1.1) contrast(1.1) saturate(1.1);
+      transform: scale(1.1);
+    }
+  }
 `;
