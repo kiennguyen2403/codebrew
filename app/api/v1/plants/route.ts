@@ -16,6 +16,7 @@ export async function GET(request: NextRequest) {
         if (error) {
             throw error;
         }
+        return new Response(JSON.stringify(data), { status: 200 });
     } catch (e) {
         return Response.json({
             error: e,
