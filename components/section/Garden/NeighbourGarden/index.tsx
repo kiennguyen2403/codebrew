@@ -6,6 +6,7 @@ import UserPlantInfoModal from "../UserPlantInfoModal";
 import GardenCanvas from "../GardenCanvas";
 import PlayerAvatar from "../PlayerAvatar";
 import NeighbourGardenPlot from "../GardenPlot/NeighbourGardenPlot";
+import { Text } from "@mantine/core";
 
 const NeighbourGarden = () => {
   const { showPlantInfoModal, currentPlant } = useSelector(
@@ -35,6 +36,12 @@ const PlotContainer = styled.div`
   top: 50%;
   transform: translateY(-50%);
   z-index: 2;
+  width: 100%;
+
+  @media screen and (max-width: 768px) {
+    left: 0;
+    top: 25%;
+  }
 `;
 
 const AvatarContainer = styled.div`
@@ -46,12 +53,8 @@ const AvatarContainer = styled.div`
   width: 33%;
   height: auto;
   aspect-ratio: 1/1;
-`;
 
-const AddPlantModalContainer = styled.div`
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 10;
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
 `;

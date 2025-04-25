@@ -14,7 +14,9 @@ const UserGarden = () => {
 
   return (
     <GardenCanvas>
-      {showPlantInfoModal && currentPlant && <UserPlantInfoModal />}
+      {showPlantInfoModal && currentPlant && (
+        <UserPlantInfoModal isMine={true} />
+      )}
       <PlotContainer>
         <GardenPlot />
       </PlotContainer>
@@ -33,11 +35,17 @@ const UserGarden = () => {
 export default UserGarden;
 
 const PlotContainer = styled.div`
+  width: 100%;
   position: absolute;
   left: 2em;
   top: 50%;
   transform: translateY(-50%);
   z-index: 2;
+
+  @media screen and (max-width: 768px) {
+    left: 0;
+    top: 25%;
+  }
 `;
 
 const AvatarContainer = styled.div`
@@ -49,6 +57,10 @@ const AvatarContainer = styled.div`
   width: 33%;
   height: auto;
   aspect-ratio: 1/1;
+
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const AddPlantModalContainer = styled.div`
