@@ -1,20 +1,23 @@
 import { Flex } from "@mantine/core";
-import PlotBlock from "./PlotBlock";
+import PlotBlock from "../PlotBlock";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
+import { setCurrentPlant } from "@/store/slices/neighbourGardenSlice";
+import { setShowPlantInfoModal } from "@/store/slices/neighbourGardenSlice";
 import { UserPlant } from "@/utils/types";
-import { setShowPlantInfoModal } from "@/store/slices/gardenSlice";
-import { setCurrentPlant } from "@/store/slices/gardenSlice";
 import { AppDispatch } from "@/store";
 
-const GardenPlot = () => {
+const NeighbourGardenPlot = () => {
   const dispatch: AppDispatch = useDispatch();
-  const { gardenPlants } = useSelector((state: RootState) => state.garden);
+  const { gardenPlants } = useSelector(
+    (state: RootState) => state.neighbourGarden
+  );
   const emptyPlots = 16 - gardenPlants.length;
 
   const handleSeePlant = (plant: UserPlant) => {
     dispatch(setShowPlantInfoModal(true));
     dispatch(setCurrentPlant(plant));
+    console.log(plant);
   };
 
   return (
@@ -31,6 +34,7 @@ const GardenPlot = () => {
           plant={plant}
           handleSeePlant={handleSeePlant}
           empty={false}
+          addable={false}
         />
       ))}
       {Array.from({ length: emptyPlots }).map((_, index) => (
@@ -40,4 +44,4 @@ const GardenPlot = () => {
   );
 };
 
-export default GardenPlot;
+export default NeighbourGardenPlot;

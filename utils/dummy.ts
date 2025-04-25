@@ -140,7 +140,22 @@ export const DUMMY_RECOMMENDED_PLANTS: Plant[] = [
   },
 ];
 
-export const DUMMY_USER_PLANTS: UserPlant[] = [
+export const DUMMY_NEIGHBOR_PLANTS: UserPlant[] = [
+  {
+    id: 5,
+    name: "Broccoli",
+    description: "A cruciferous vegetable known for its health benefits",
+    image:
+      "https://fljnffgnpjpfnzqnewxj.supabase.co/storage/v1/object/public/images/plants%20/Broccoli.png",
+    weather: "Arid",
+    location: "Desert",
+    growTime: 30,
+    seedPrice: "$4.00",
+    plantedDate: new Date(new Date().setMonth(new Date().getMonth() - 1))
+      .toISOString()
+      .split("T")[0],
+    quantity: 10,
+  },
   {
     id: 1,
     name: "Lettuce",
@@ -151,7 +166,9 @@ export const DUMMY_USER_PLANTS: UserPlant[] = [
     location: "Garden",
     growTime: 30,
     seedPrice: "$2.50",
-    plantedDate: "2024-01-01",
+    plantedDate: new Date(new Date().setMonth(new Date().getMonth() - 1))
+      .toISOString()
+      .split("T")[0],
     quantity: 10,
   },
   {
@@ -164,11 +181,29 @@ export const DUMMY_USER_PLANTS: UserPlant[] = [
     location: "Field",
     growTime: 30,
     seedPrice: "$1.75",
-    plantedDate: "2024-01-01",
+    plantedDate: new Date().toISOString().split("T")[0],
+    quantity: 10,
+  },
+];
+
+export const DUMMY_USER_PLANTS: UserPlant[] = [
+  {
+    id: 1,
+    name: "Lettuce",
+    description: "A leafy green vegetable, perfect for salads",
+    image:
+      "https://fljnffgnpjpfnzqnewxj.supabase.co/storage/v1/object/public/images/plants%20/Lettuce.png",
+    weather: "Temperate",
+    location: "Garden",
+    growTime: 30,
+    seedPrice: "$2.50",
+    plantedDate: new Date(new Date().setMonth(new Date().getMonth() - 1))
+      .toISOString()
+      .split("T")[0],
     quantity: 10,
   },
   {
-    id: 3,
+    id: 2,
     name: "Spinach",
     description: "A nutrient-rich leafy green, ideal for healthy meals",
     image:
@@ -177,7 +212,20 @@ export const DUMMY_USER_PLANTS: UserPlant[] = [
     location: "Field",
     growTime: 30,
     seedPrice: "$1.75",
-    plantedDate: "2024-01-01",
+    plantedDate: new Date().toISOString().split("T")[0],
+    quantity: 10,
+  },
+  {
+    id: 3,
+    name: "Eggplant",
+    description: "A versatile vegetable with a rich, meaty texture",
+    image:
+      "https://fljnffgnpjpfnzqnewxj.supabase.co/storage/v1/object/public/images/plants%20/Eggplant.png",
+    weather: "Warm",
+    location: "Farm",
+    growTime: 30,
+    seedPrice: "$3.00",
+    plantedDate: new Date().toISOString().split("T")[0],
     quantity: 10,
   },
 ];

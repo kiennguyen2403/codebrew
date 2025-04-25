@@ -6,12 +6,15 @@ import { AVATAR_IMAGES } from "@/utils/constant";
 import { useSelector } from "react-redux";
 import AddPlantModal from "./AddPlantModal";
 import { RootState } from "@/store";
-
+import UserPlantInfoModal from "./UserPlantInfoModal";
 const UserGarden = () => {
-  const { showAddPlantModal } = useSelector((state: RootState) => state.garden);
+  const { showAddPlantModal, showPlantInfoModal, currentPlant } = useSelector(
+    (state: RootState) => state.garden
+  );
 
   return (
     <GardenCanvas>
+      {showPlantInfoModal && currentPlant && <UserPlantInfoModal />}
       <PlotContainer>
         <GardenPlot />
       </PlotContainer>

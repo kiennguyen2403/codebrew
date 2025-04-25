@@ -1,31 +1,45 @@
+import { setShowAddPlantModal } from "@/store/slices/gardenSlice";
 import { UserPlant } from "@/utils/types";
 import { Button, Text } from "@mantine/core";
 import Image from "next/image";
 import styled from "styled-components";
 import { AppDispatch } from "@/store";
-import { setShowAddPlantModal } from "@/store/slices/gardenSlice";
 import { useDispatch } from "react-redux";
 
 interface PlotBlockProps {
   plant?: UserPlant;
-  handleSeePlant: () => void;
+  handleSeePlant: (plant: UserPlant) => void;
   empty?: boolean;
+  addable?: boolean;
 }
 
 const PLOT_BLOCK_IMAGE =
   "https://fljnffgnpjpfnzqnewxj.supabase.co/storage/v1/object/public/images//plot_block.png";
 
-const PlotBlock = ({ plant, handleSeePlant, empty = true }: PlotBlockProps) => {
+const PlotBlock = ({
+  plant,
+  handleSeePlant,
+  empty = true,
+  addable = true,
+}: PlotBlockProps) => {
   const dispatch: AppDispatch = useDispatch();
 
   const handleAddPlant = () => {
     dispatch(setShowAddPlantModal(true));
   };
 
+  const handleHover = (plant: UserPlant) => {
+    handleSeePlant(plant);
+  };
+
   return (
     <PlotBlockContainer empty={empty.toString()}>
       {plant && (
-        <PlantImageContainer onClick={handleSeePlant}>
+        <PlantImageContainer
+          onMouseEnter={() => {
+            handleHover(plant);
+          }}
+        >
           <Image
             src={plant.image}
             width={120}
@@ -35,7 +49,7 @@ const PlotBlock = ({ plant, handleSeePlant, empty = true }: PlotBlockProps) => {
           />
         </PlantImageContainer>
       )}
-      {!plant && (
+      {!plant && !addable && (
         <Button variant="outline" color={"secondary"} onClick={handleAddPlant}>
           <Text size="xl">{"+"}</Text>
         </Button>

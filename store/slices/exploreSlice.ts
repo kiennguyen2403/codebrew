@@ -12,7 +12,7 @@ interface ExploreState {
 const initialState: ExploreState = {
   loading: false,
   error: null,
-  neighbours: [],
+  neighbours: DUMMY_USERS.slice(0, 2),
 };
 
 const exploreSlice = createSlice({
