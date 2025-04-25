@@ -12,58 +12,67 @@ export async function GET(
             return new Response('Unauthorized', { status: 401 });
         }
 
-        const supabase = await createClient();
         const { id } = await params;
+        const supabase = await createClient();
 
-        switch (id) {
-            case 'recommendation': {
-                const { data: user, error: userError } = await supabase
-                    .from('users')
-                    .select('id, plant_preference_embedding')
-                    .eq('clerk_id', userId)
-                    .single();
+        if (id === 'recommendation') {
+            // Fetch current user's data
+            const { data: currentUser, error: userError } = await supabase
+                .from('users')
+                .select('id, clerk_id, location')
+                .eq('clerk_id', userId)
+                .single();
 
-                if (userError || !user) {
-                    console.error("User fetch error:", userError);
-                    return new Response("User not found", { status: 404 });
-                }
-
-                if (!user.plant_preference_embedding) {
-                    return new Response("User preference embedding not found", { status: 400 });
-                }
-
-                // Step 2: Call match_plants_by_preferences RPC function
-                const { data: recommendedPlants, error: matchError } = await supabase
-                    .rpc('match_plants_by_preferences', {
-                        user_embedding: user.plant_preference_embedding,
-                        user_id: user.id,
-                        distance_threshold: 0.7,
-                        max_results: 10,
-                    });
-
-                if (matchError) {
-                    console.error("Match error:", matchError);
-                    return new Response("Failed to get recommendations", { status: 500 });
-                }
-
-                return Response.json(recommendedPlants, { status: 200 });
+            if (userError || !currentUser) {
+                console.error("Error fetching current user:", JSON.stringify(userError, null, 2));
+                return new Response("User not found", { status: 404 });
             }
 
-            default: {
-                const { data, error } = await supabase
-                    .from('plants')
-                    .select('*')
-                    .eq('id', id)
-                    .single();
+            // Determine season (Northern Hemisphere)
+            const currentSeason = (new Date().getMonth() >= 2 && new Date().getMonth() <= 7) ? 'Warm' : 'Cool';
 
-                if (error) {
-                    throw error;
-                }
-                return Response.json(data);
+            // Set user location (default to neutral)
+            const userLocation = 'Indoor/Outdoor'; // Adjust if location_preference column exists
+
+            // Fetch plant recommendations
+            const { data: recommendedPlants, error: matchError } = await supabase
+                .rpc('match_plants_by_preferences', {
+                    user_id: currentUser.id,
+                    user_location: userLocation,
+                    current_season: currentSeason,
+                    max_results: 10,
+                });
+
+            if (matchError) {
+                console.error("Match error:", JSON.stringify(matchError, null, 2));
+                return new Response("Failed to get recommendations", { status: 500 });
             }
+
+            return Response.json({
+                recommendedPlants: recommendedPlants || [],
+            });
         }
+
+        // Default case: Fetch a single plant by ID
+        const { data, error } = await supabase
+            .from('plants')
+            .select('*')
+            .eq('id', id)
+            .single();
+
+        if (error) {
+            console.error("Error fetching plant:", JSON.stringify(error, null, 2));
+            return new Response(error.message, { status: 500 });
+        }
+
+        return Response.json(data);
+
     } catch (e: any) {
-        console.error("Unhandled error:", e);
-        return Response.json({ error: e.message || e.toString() }, { status: 500 });
+        console.error("Server error:", e);
+        return Response.json({
+            error: e.message || e.toString(),
+        }, {
+            status: 500,
+        });
     }
 }
