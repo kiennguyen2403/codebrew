@@ -35,7 +35,8 @@ const WalkingAvatar = ({ ...user }: WalkingAvatarProps) => {
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         onClick={() => {
-          router.push(`/garden/${user.id}`);
+          // TODO: use dynamic, for now set to 1
+          router.push(`/garden/1`);
         }}
       />
     </WalkingAvatarContainer>

@@ -8,11 +8,15 @@ import { updateSession } from "@/utils/supabase/middleware";
 const isPublicRoute = createRouteMatcher(["/sign-in(.*)", "/sign-up(.*)", "/"]);
 
 export default clerkMiddleware(async (auth, req: NextRequest) => {
-  const { userId } = await auth();
+  const { userId, sessionClaims } = await auth();
 
-  // Redirect authenticated users from root (/) to /user
+  // Check if the user has just signed up
+  const isNewUser = sessionClaims?.isNewUser;
+
+  // Redirect new users to /onboarding, else redirect authenticated users from root (/) to /garden
   if (userId && req.nextUrl.pathname === "/") {
-    const homeUrl = new URL("/dashboard", req.url);
+    const redirectUrl = isNewUser ? "/onboarding" : "/garden";
+    const homeUrl = new URL(redirectUrl, req.url);
     return NextResponse.redirect(homeUrl);
   }
 

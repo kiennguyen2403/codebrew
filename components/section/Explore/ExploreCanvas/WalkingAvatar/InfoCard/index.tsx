@@ -25,7 +25,9 @@ const NeighborInfoCard = ({
           {"Hobbies"}
         </Text>
         <Text>{hobbies.join(", ")}</Text>
-        <Anchor href={`/garden/${id}`} fw={700}>
+
+        {/* TODO: use dynamic, for now set to 1 */}
+        <Anchor href={`/garden/1`} fw={700}>
           {`"Click to See Garden"`}
         </Anchor>
       </Stack>

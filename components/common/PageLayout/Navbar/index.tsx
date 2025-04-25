@@ -1,5 +1,11 @@
-import { Box, Flex } from "@mantine/core";
+import { UserButton } from "@clerk/nextjs";
+import { SignedIn } from "@clerk/nextjs";
+import { SignUpButton } from "@clerk/nextjs";
+import { SignedOut } from "@clerk/nextjs";
+import { SignInButton } from "@clerk/nextjs";
+import { Box, Button, Flex } from "@mantine/core";
 import Image from "next/image";
+import Link from "next/link";
 import styled from "styled-components";
 
 const Navbar = () => {
@@ -22,7 +28,27 @@ const Navbar = () => {
               objectFit="contain"
             />
           </LogoContainer>
-          <Flex>{/* Buttons goes here... */}</Flex>
+          <Flex
+            direction={"row"}
+            gap={"md"}
+            justify={"flex-end"}
+            align={"center"}
+            px={"md"}
+          >
+            <Button component={Link} href="/explore">
+              {"Explore"}
+            </Button>
+            <Button component={Link} href="/garden">
+              {"My Garden"}
+            </Button>
+            <SignedOut>
+              <SignInButton />
+              <SignUpButton />
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
+          </Flex>
         </Flex>
       </Box>
       <OutlineBox />
