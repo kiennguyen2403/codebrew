@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
         const hobbyEmbedding = embeddingResponse.data[0].embedding;
 
         const userData = {
-            clerk_id: body.clerk_id,
+            clerk_id: userId,
             hobbies: body.hobbies,
             location: wktLocation,
             hobby_embedding: hobbyEmbedding,
