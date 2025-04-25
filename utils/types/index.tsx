@@ -19,12 +19,13 @@ export interface Plant {
   image: string;
   weather: string;
   location: string;
-  growTime: string;
+  growTime: number;
   seedPrice: string;
 }
 
 export interface UserPlant extends Plant {
   plantedDate: string;
+  quantity: number;
 }
 
 export interface Garden {

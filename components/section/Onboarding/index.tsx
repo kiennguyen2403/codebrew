@@ -3,14 +3,17 @@ import { useEffect, useState } from "react";
 import OnboardingForm from "./OnboardingForm";
 import AvatarSelection from "./AvatarSelection";
 import { RegisterUser } from "@/utils/types";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store";
 import { getLocationName } from "@/store/slices/locationSlice";
 import { registerUser } from "@/store/slices/authSlice";
+import { useRouter } from "next/navigation";
+
 const Onboarding = () => {
   const dispatch: AppDispatch = useDispatch();
+  const router = useRouter();
 
-  const [currStep, setCurrStep] = useState(2);
+  const [currStep, setCurrStep] = useState(1);
   const [validStep1, setValidStep1] = useState(false);
 
   const [onboardingData, setOnboardingData] = useState<RegisterUser>({
@@ -86,7 +89,14 @@ const Onboarding = () => {
 
   const handleSubmit = () => {
     if (validStep1) {
-      dispatch(registerUser({ clerkId: "", userData: onboardingData }));
+      dispatch(
+        registerUser({
+          userData: onboardingData,
+          onSuccess: () => {
+            router.push("/garden");
+          },
+        })
+      );
       console.log(onboardingData);
     }
   };

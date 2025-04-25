@@ -4,6 +4,7 @@ import { AppDispatch, RootState } from "@/store";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getLocationName } from "@/store/slices/locationSlice";
+
 const Explore = () => {
   const dispatch: AppDispatch = useDispatch();
   const { lat, lon } = useSelector((state: RootState) => state.location);

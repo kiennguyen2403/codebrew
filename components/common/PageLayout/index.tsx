@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Stack } from "@mantine/core";
+import { Box } from "@mantine/core";
 import ProjectProvider from "./Provider";
 import Navbar from "./Navbar";
 import styled from "styled-components";
