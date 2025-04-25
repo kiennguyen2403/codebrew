@@ -10,6 +10,7 @@ export async function GET(request: NextRequest) {
         }
         const supabase = await createClient();
 
+        // Fetch the user's ID from the users table
         const { data: user, error: userError } = await supabase
             .from('users')
             .select('id')
@@ -18,12 +19,13 @@ export async function GET(request: NextRequest) {
 
         if (userError) throw userError;
 
+        // Fetch trades involving the user as initiator or receiver
         const { data, error } = await supabase
             .from('trades')
             .select(`
                 *,
-                initiator:initiator_id (id, name),
-                receiver:receiver_id (id, name),
+                initiator:initiator_id (id, name, clerk_id),
+                receiver:receiver_id (id, name, clerk_id),
                 initiator_plant:initiator_plant_id (id, name, type),
                 receiver_plant:receiver_plant_id (id, name, type)
             `)
@@ -54,31 +56,78 @@ export async function POST(request: NextRequest) {
         const supabase = await createClient();
         const { initiator_plant_id, receiver_id, receiver_plant_id } = await request.json();
 
-        // Validate plant ownership (initiator_plant_id belongs to the initiator)
-        const { data: initiatorPlant, error: initiatorError } = await supabase
-            .from('plants')
-            .select('owner_id')
-            .eq('id', initiator_plant_id)
+        // Fetch the initiator's user ID from the users table
+        const { data: initiatorUser, error: initiatorUserError } = await supabase
+            .from('users')
+            .select('id')
+            .eq('clerk_id', userId)
             .single();
 
-        if (initiatorError || !initiatorPlant || initiatorPlant.owner_id !== userId) {
+        if (initiatorUserError || !initiatorUser) {
             return Response.json({
-                error: 'Invalid plant or not owned by user',
+                error: 'Initiator user not found',
+            }, {
+                status: 404,
+            });
+        }
+
+        // Fetch the initiator's garden
+        const { data: initiatorGarden, error: initiatorGardenError } = await supabase
+            .from('gardens')
+            .select('id')
+            .eq('user_id', initiatorUser.id)
+            .single();
+
+        if (initiatorGardenError || !initiatorGarden) {
+            return Response.json({
+                error: 'Initiator garden not found',
+            }, {
+                status: 404,
+            });
+        }
+
+        // Validate that the initiator_plant_id exists in the initiator's garden with sufficient quantity
+        const { data: initiatorgrowing, error: initiatorgrowingError } = await supabase
+            .from('growing')
+            .select('id, quantity')
+            .eq('garden_id', initiatorGarden.id)
+            .eq('plant_id', initiator_plant_id)
+            .single();
+
+        if (initiatorgrowingError || !initiatorgrowing || initiatorgrowing.quantity < 1) {
+            return Response.json({
+                error: 'Initiator plant not found in garden or insufficient quantity',
             }, {
                 status: 403,
             });
         }
 
-        // Validate receiver_plant_id belongs to the receiver
-        const { data: receiverPlant, error: receiverError } = await supabase
-            .from('plants')
-            .select('owner_id')
-            .eq('id', receiver_plant_id)
+        // Fetch the receiver's garden
+        const { data: receiverGarden, error: receiverGardenError } = await supabase
+            .from('gardens')
+            .select('id')
+            .eq('user_id', receiver_id)
             .single();
 
-        if (receiverError || !receiverPlant || receiverPlant.owner_id !== receiver_id) {
+        if (receiverGardenError || !receiverGarden) {
             return Response.json({
-                error: 'Invalid receiver plant or not owned by receiver',
+                error: 'Receiver garden not found',
+            }, {
+                status: 404,
+            });
+        }
+
+        // Validate that the receiver_plant_id exists in the receiver's garden with sufficient quantity
+        const { data: receivergrowing, error: receivergrowingError } = await supabase
+            .from('growing')
+            .select('id, quantity')
+            .eq('garden_id', receiverGarden.id)
+            .eq('plant_id', receiver_plant_id)
+            .single();
+
+        if (receivergrowingError || !receivergrowing || receivergrowing.quantity < 1) {
+            return Response.json({
+                error: 'Receiver plant not found in garden or insufficient quantity',
             }, {
                 status: 403,
             });
@@ -88,7 +137,7 @@ export async function POST(request: NextRequest) {
         const { data, error } = await supabase
             .from('trades')
             .insert({
-                initiator_id: userId,
+                initiator_id: initiatorUser.id,
                 receiver_id,
                 initiator_plant_id,
                 receiver_plant_id,
@@ -105,99 +154,6 @@ export async function POST(request: NextRequest) {
     } catch (e: any) {
         return Response.json({
             error: e.message || 'Failed to create trade',
-        }, {
-            status: 500,
-        });
-    }
-}
-
-export async function PUT(request: NextRequest) {
-    try {
-        const { userId, getToken } = await auth();
-        if (!userId) {
-            return new Response('Unauthorized', { status: 401 });
-        }
-
-        const supabase = await createClient();
-        const { id, status } = await request.json();
-
-        // Validate status
-        const validStatuses = ['accepted', 'rejected', 'completed'];
-        if (!validStatuses.includes(status)) {
-            return Response.json({
-                error: 'Invalid status',
-            }, {
-                status: 400,
-            });
-        }
-
-        // Fetch the trade
-        const { data: trade, error: tradeError } = await supabase
-            .from('trades')
-            .select('*')
-            .eq('id', id)
-            .single();
-
-        if (tradeError || !trade) {
-            return Response.json({
-                error: 'Trade not found',
-            }, {
-                status: 404,
-            });
-        }
-
-        // Only the receiver can update the status initially (to accept/reject)
-        if (trade.status === 'pending' && userId !== trade.receiver_id) {
-            return Response.json({
-                error: 'Only the receiver can update this trade',
-            }, {
-                status: 403,
-            });
-        }
-
-        // Update trade status
-        const { data: updatedTrade, error: updateError } = await supabase
-            .from('trades')
-            .update({ status, updated_at: new Date().toISOString() })
-            .eq('id', id)
-            .select()
-            .single();
-
-        if (updateError) {
-            throw updateError;
-        }
-
-        // If trade is accepted, swap the plant ownership
-        if (status === 'accepted') {
-            const { error: plantUpdateError1 } = await supabase
-                .from('plants')
-                .update({ owner_id: trade.receiver_id, garden_id: trade.receiver_id })
-                .eq('id', trade.initiator_plant_id);
-
-            const { error: plantUpdateError2 } = await supabase
-                .from('plants')
-                .update({ owner_id: trade.initiator_id, garden_id: trade.initiator_id })
-                .eq('id', trade.receiver_plant_id);
-
-            if (plantUpdateError1 || plantUpdateError2) {
-                throw new Error('Failed to swap plants');
-            }
-
-            // Mark trade as completed
-            const { error: completeError } = await supabase
-                .from('trades')
-                .update({ status: 'completed', updated_at: new Date().toISOString() })
-                .eq('id', id);
-
-            if (completeError) {
-                throw completeError;
-            }
-        }
-
-        return Response.json(updatedTrade, { status: 200 });
-    } catch (e: any) {
-        return Response.json({
-            error: e.message || 'Failed to update trade',
         }, {
             status: 500,
         });

@@ -99,7 +99,7 @@ export async function GET(request: NextRequest) {
         // Fetch current user's coordinates
         const { data: currentUser, error: currentError } = await supabase
             .from('users')
-            .select('id, clerk_id, latitude, longitude')
+            .select('id, clerk_id, location')
             .eq('clerk_id', userId)
             .single();
 
@@ -108,17 +108,19 @@ export async function GET(request: NextRequest) {
             return new Response("User not found", { status: 404 });
         }
 
-        if (!currentUser.latitude || !currentUser.longitude) {
-            return new Response("User location not available", { status: 400 });
+        const wkbHexCurrent = currentUser.location as string;
+        const geometryCurrent = wkx.Geometry.parse(Buffer.from(wkbHexCurrent, "hex"));
+        const locationCurrent = geometryCurrent.toGeoJSON() as { type: string; coordinates: number[] };
+        if (!locationCurrent || locationCurrent.type !== "Point" || !locationCurrent.coordinates) {
+            return new NextResponse("Invalid user location", { status: 400 });
         }
-        const lon = currentUser.longitude;
-        const lat = currentUser.latitude;
+        const [currentLon, currentLat] = locationCurrent.coordinates;
 
         // Call the RPC function to find users within radius
         const { data, error } = await supabase
             .rpc('find_users_within_radius', {
-                lon,
-                lat,
+                lon: currentLon,
+                lat: currentLat,
                 radius_meters: radiantValue,
             });
 
@@ -127,7 +129,22 @@ export async function GET(request: NextRequest) {
             return new Response(error.message, { status: 500 });
         }
 
-        return Response.json(data);
+        // Parse the location field (WKB hex string) for each user
+        const usersWithParsedLocation = data.map((user: { location: WithImplicitCoercion<string> | { [Symbol.toPrimitive](hint: "string"): string; }; }) => {
+            const geometry = wkx.Geometry.parse(Buffer.from(user.location, "hex"));
+            const geoJSON = geometry.toGeoJSON() as { type: string; coordinates: number[] };
+            let longitude = 0;
+            let latitude = 0;
+            if (geoJSON && geoJSON.coordinates) {
+                [longitude, latitude] = geoJSON.coordinates;
+            }
+            return {
+                ...user,
+                location: { longitude, latitude }, // Convert to a more usable format
+            };
+        });
+
+        return NextResponse.json(usersWithParsedLocation, { status: 200 });
 
     } catch (e: any) {
         console.error("Server error:", e);

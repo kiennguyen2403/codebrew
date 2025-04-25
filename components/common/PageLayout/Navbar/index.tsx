@@ -1,14 +1,53 @@
-import { UserButton } from "@clerk/nextjs";
+"use client";
+import { createClient } from "@/utils/supabase/client";
+import { UserButton, useUser } from "@clerk/nextjs";
 import { SignedIn } from "@clerk/nextjs";
 import { SignUpButton } from "@clerk/nextjs";
 import { SignedOut } from "@clerk/nextjs";
 import { SignInButton } from "@clerk/nextjs";
 import { Box, Button, Flex } from "@mantine/core";
+import { RealtimeChannel } from "@supabase/supabase-js";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
 const Navbar = () => {
+  const channel = useRef<RealtimeChannel | null>(null);
+  const [notifications, setNotifications] = useState<any[]>([]);
+  const { user } = useUser();
+
+  useEffect(() => {
+    if (channel.current || user?.id) return;
+    const client = createClient();
+    channel.current = client.channel(`notification ${user?.id}`, {
+      config: {
+        broadcast: {
+          self: true,
+        },
+      },
+    });
+
+    channel.current.on(
+      "postgres_changes",
+      {
+        event: "INSERT",
+        schema: "notifications",
+        table: "messages",
+        filter: `user_id=eq.${user?.id}`,
+      },
+      (payload) => {
+        setNotifications([...notifications, payload.new]);
+      }
+    );
+
+    return () => {
+      if (channel.current) {
+        channel.current.unsubscribe();
+        channel.current = null;
+      }
+    };
+  }, [user?.id]);
   return (
     <NavbarWrapper>
       <Box style={{ zIndex: 1, border: "1px solid black" }}>
