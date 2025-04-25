@@ -49,7 +49,7 @@ export const registerUser = createAsyncThunk(
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name: userData.name,
+          username: userData.name,
           gender: userData.gender,
           whatsapp: userData.whatsappNumber,
           location: {

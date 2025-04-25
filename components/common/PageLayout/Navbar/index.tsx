@@ -35,17 +35,17 @@ const Navbar = () => {
             align={"center"}
             px={"md"}
           >
-            <Button component={Link} href="/explore">
-              {"Explore"}
-            </Button>
-            <Button component={Link} href="/garden">
-              {"My Garden"}
-            </Button>
             <SignedOut>
               <SignInButton />
               <SignUpButton />
             </SignedOut>
             <SignedIn>
+              <Button component={Link} href="/explore">
+                {"Explore"}
+              </Button>
+              <Button component={Link} href="/garden">
+                {"My Garden"}
+              </Button>
               <UserButton />
             </SignedIn>
           </Flex>
