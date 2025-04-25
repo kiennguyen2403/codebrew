@@ -5,6 +5,7 @@ interface User {
   avatar: string;
   gender: string;
   hobbies: string[];
+  plantCount: number;
 }
 
 interface Plant {
