@@ -1,0 +1,49 @@
+@font-face {
+  font-family: "PixeloidSans";
+  src: url("/fonts/PixeloidSans.ttf") format("ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "PixeloidSans";
+  src: url("/fonts/PixeloidSansBold.ttf") format("ttf");
+  font-weight: bold;
+  font-style: normal;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "PixeloidSans", sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f8f9fa;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "PixeloidSans", sans-serif;
+  margin: 0;
+  padding: 0;
+  font-weight: bold;
+}
+
+p {
+  font-family: "PixeloidSans", sans-serif;
+  margin: 0 0 1em;
+  padding: 0;
+}
+
+a {
+  color: #00a26f;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
