@@ -30,7 +30,8 @@ const Navbar = () => {
 
     if (error) return;
 
-    channel.current = client.channel(`notification:${user.id}`, {
+    console.log("data:", data);
+    channel.current = client.channel(`notifications:${user.id}`, {
       config: {
         broadcast: {
           self: true,
@@ -41,17 +42,19 @@ const Navbar = () => {
     channel.current.on(
       "postgres_changes",
       {
-        event: "*",
+        event: "INSERT",
         schema: "public",
         table: "notifications",
         filter: `user_id=eq.${data?.id}`,
       },
       (payload) => {
-        console.log("New notification payload:", payload.new);
         setNotifications((prev) => [...prev, payload.new]);
       }
-    );
+    ).subscribe((status)=> {
+      console.log(status)
+    })
   };
+
 
   useEffect(() => {
     setupNewTime();
