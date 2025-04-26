@@ -20,13 +20,8 @@ const sendEmail = async (email: string, subject: string, message: string) => {
     return res;
 };
 
-export async function GET() {
-    return new NextResponse("OK", { status: 200 });
-}
-
-export async function POST(request: NextRequest) {
+const sendWarnings = async (userId: string, content: string) => {
     try {
-        const { userId, content } = await request.json();
         const supabase = await createClient();
         const { data, error } = await supabase
             .from('users')
@@ -54,12 +49,25 @@ export async function POST(request: NextRequest) {
                 throw Error("Email sent fail")
             }
             console.log("Email sent successfully");
-            return NextResponse.json({ success: true }, { status: 204 });
+            return { body: { success: true }, status: 200 }
         } else {
             throw Error("No email found")
         }
     } catch (e: any) {
         console.error("Server error:", e);
-        return NextResponse.json({ error: e.message }, { status: 500 });
+        return { body: { error: e.message }, status: 500 }
     }
+
+}
+
+export async function GET() {
+    const { body, status } = await sendWarnings("1", "TEST")
+    return NextResponse.json(body, { status })
+}
+
+export async function POST(request: NextRequest) {
+    const { userId, content } = await request.json();
+    console.log("Users ID", userId)
+    const { body, status } = await sendWarnings(userId, content)
+    return NextResponse.json(body, { status })
 }

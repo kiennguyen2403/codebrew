@@ -1,3 +1,4 @@
+// Start of Selection
 // app/api/posts/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/server";
@@ -57,7 +58,6 @@ export async function POST(request: NextRequest) {
       return new Response("Content is required", { status: 400 });
     }
 
-    // Fetch user_id (int8) from users table
     const { data: user, error: userError } = await supabase
       .from("users")
       .select("id")
@@ -69,7 +69,6 @@ export async function POST(request: NextRequest) {
       return new Response("User not found", { status: 404 });
     }
 
-    // Insert post
     const { data, error } = await supabase
       .from("posts")
       .insert({

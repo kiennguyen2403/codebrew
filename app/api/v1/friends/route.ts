@@ -77,7 +77,6 @@ export async function GET(request: NextRequest) {
     }
 }
 
-// Unchanged POST and PUT endpoints
 export async function POST(request: NextRequest) {
     try {
         const { userId } = await auth();
