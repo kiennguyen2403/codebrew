@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
             return new Response("Content is required", { status: 400 });
         }
 
-        // Fetch user_id (int8) from users table
+
         const { data: user, error: userError } = await supabase
             .from("users")
             .select("id")
