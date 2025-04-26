@@ -49,7 +49,7 @@ const PlotBlock = ({
           />
         </PlantImageContainer>
       )}
-      {!plant && !addable && (
+      {!plant && addable && (
         <Button variant="outline" color={"secondary"} onClick={handleAddPlant}>
           <Text size="xl">{"+"}</Text>
         </Button>

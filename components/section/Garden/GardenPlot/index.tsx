@@ -34,7 +34,7 @@ const GardenPlot = () => {
         />
       ))}
       {Array.from({ length: emptyPlots }).map((_, index) => (
-        <PlotBlock key={index} handleSeePlant={() => {}} empty={true} />
+        <PlotBlock key={index} handleSeePlant={() => {}} empty={true} addable />
       ))}
     </Flex>
   );
