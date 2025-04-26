@@ -61,7 +61,7 @@ const sendWarnings = async (userId: string, content: string) => {
 }
 
 export async function GET() {
-    const { body, status } = await sendWarnings("1", "TEST")
+    const { body, status } = await sendWarnings("1", `<p>Dear user,</p><p>We detected severe weather in your area: <strong>Thunderstorm</strong> with a temperature of <strong>10°C</strong> and wind speed of <strong>20 m/s</strong>.</p><p>Please take precautions to protect your garden.</p><p>Best,<br>Your Gardening App</p>`)
     return NextResponse.json(body, { status })
 }
 
