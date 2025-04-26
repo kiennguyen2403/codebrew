@@ -21,18 +21,22 @@ const ChatInterface = ({ id }: { id: string }) => {
       },
     });
 
-    channel.current.on(
-      "postgres_changes",
-      {
-        event: "INSERT",
-        schema: "public",
-        table: "messages",
-        filter: `conversation_id=eq.${id}`,
-      },
-      (payload) => {
-        setMessages([...messages, payload.new.content]);
-      }
-    );
+    channel.current
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "messages",
+          filter: `conversation_id=eq.${id}`,
+        },
+        (payload) => {
+          setMessages([...messages, payload.new.content]);
+        }
+      )
+      .subscribe((status) => {
+        console.log(status);
+      });
 
     return () => {
       if (channel.current) {
