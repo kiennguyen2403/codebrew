@@ -4,8 +4,8 @@ import { NextResponse } from "next/server";
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { updateSession } from "@/utils/supabase/middleware";
 
-// Define public routes (sign-in and sign-up)
-const isPublicRoute = createRouteMatcher(["/sign-in(.*)", "/sign-up(.*)", "/"]);
+
+const isPublicRoute = createRouteMatcher(["/sign-in(.*)", "/sign-up(.*)", "/api/v1/send-warnings", "api/v1/check-harvesting", "api/v1/weather"]);
 
 export default clerkMiddleware(async (auth, req: NextRequest) => {
   const { userId, sessionClaims } = await auth();
