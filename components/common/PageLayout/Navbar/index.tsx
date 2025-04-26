@@ -39,22 +39,23 @@ const Navbar = () => {
       },
     });
 
-    channel.current.on(
-      "postgres_changes",
-      {
-        event: "INSERT",
-        schema: "public",
-        table: "notifications",
-        filter: `user_id=eq.${data?.id}`,
-      },
-      (payload) => {
-        setNotifications((prev) => [...prev, payload.new]);
-      }
-    ).subscribe((status)=> {
-      console.log(status)
-    })
+    channel.current
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "notifications",
+          filter: `user_id=eq.${data?.id}`,
+        },
+        (payload) => {
+          setNotifications((prev) => [...prev, payload.new]);
+        }
+      )
+      .subscribe((status) => {
+        console.log(status);
+      });
   };
-
 
   useEffect(() => {
     setupNewTime();
