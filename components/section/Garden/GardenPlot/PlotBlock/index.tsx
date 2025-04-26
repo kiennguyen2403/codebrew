@@ -5,6 +5,7 @@ import Image from "next/image";
 import styled from "styled-components";
 import { AppDispatch } from "@/store";
 import { useDispatch } from "react-redux";
+import { calculateRemainingGrowTime } from "@/utils/common-function";
 
 interface PlotBlockProps {
   plant?: UserPlant;
@@ -32,8 +33,21 @@ const PlotBlock = ({
     handleSeePlant(plant);
   };
 
+  const isReadyToHarvest =
+    plant && calculateRemainingGrowTime(plant.plantedDate, plant.growTime) <= 0;
+
   return (
     <PlotBlockContainer empty={empty.toString()}>
+      {isReadyToHarvest && (
+        <StarContainer>
+          <Image
+            src={"/images/assets/star.png"}
+            alt="star"
+            width={60}
+            height={60}
+          />
+        </StarContainer>
+      )}
       {plant && (
         <PlantImageContainer
           onMouseEnter={() => {
@@ -50,8 +64,14 @@ const PlotBlock = ({
         </PlantImageContainer>
       )}
       {!plant && addable && (
-        <Button variant="outline" color={"secondary"} onClick={handleAddPlant}>
-          <Text size="xl">{"+"}</Text>
+        <Button
+          variant="transparent"
+          color={"secondary"}
+          onClick={handleAddPlant}
+        >
+          <Text size="6em" c={"secondary"}>
+            {"+"}
+          </Text>
         </Button>
       )}
     </PlotBlockContainer>
@@ -70,7 +90,9 @@ const PlotBlockContainer = styled.div<{ empty: string }>`
   background-position: center;
   background-repeat: no-repeat;
 
-  outline: 8px solid ${({ theme }) => theme.colors.secondary};
+  outline: 6px dashed ${({ theme }) => theme.colors.secondary};
+  filter: ${({ empty }) =>
+    empty === "true" ? "brightness(0.8) saturate(0.8) contrast(0.8)" : "none"};
 
   display: flex;
   justify-content: center;
@@ -95,5 +117,25 @@ const PlantImageContainer = styled.div`
       filter: brightness(1.1) contrast(1.1) saturate(1.1);
       transform: scale(1.1);
     }
+  }
+`;
+
+const StarContainer = styled.div`
+  position: absolute;
+  top: -1em;
+  right: -1em;
+
+  width: 4em;
+  height: 4em;
+  aspect-ratio: 1/1;
+  z-index: 5;
+
+  & > img {
+    aspect-ratio: 1/1;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: brightness(1.2) contrast(1.2) saturate(1.2)
+      drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
   }
 `;

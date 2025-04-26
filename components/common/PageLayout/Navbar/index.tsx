@@ -32,11 +32,12 @@ const Navbar = () => {
       "postgres_changes",
       {
         event: "INSERT",
-        schema: "notifications",
-        table: "messages",
-        filter: `user_id=eq.${user?.id}`,
+        schema: "public",
+        table: "notifications",
+        // filter: `user_id=eq.${user?.id}`,
       },
       (payload) => {
+        console.log(payload);
         setNotifications([...notifications, payload.new]);
       }
     );

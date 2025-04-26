@@ -45,3 +45,6 @@ export const HOBBIES = [
   "Volunteering",
   "Astronomy",
 ];
+
+export const ACHIEVEMENT_1_KEY = "urbanteria_achievement_1";
+export const ACHIEVEMENT_2_KEY = "urbanteria_achievement_2";
