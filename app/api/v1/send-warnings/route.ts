@@ -20,7 +20,12 @@ const sendEmail = async (email: string, subject: string, message: string) => {
     return res;
 };
 
+export async function GET() {
+    return new NextResponse("OK", { status: 200 });
+}
+
 export async function POST(request: NextRequest) {
+    console.log("POST")
     try {
         const { userId, content } = await request.json();
         const supabase = await createClient();

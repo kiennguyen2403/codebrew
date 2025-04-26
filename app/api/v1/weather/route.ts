@@ -92,7 +92,7 @@ export async function GET(request: NextRequest) {
                         severeConditions.includes(weatherCondition);
 
                     if (isSevere) {
-                        // Create notification for the user
+
                         const notificationContent = `<p>Dear user,</p><p>We detected severe weather in your area: <strong>${weatherCondition}</strong> with a temperature of <strong>${temperature}°C</strong> and wind speed of <strong>${windSpeed} m/s</strong>.</p><p>Please take precautions to protect your garden.</p><p>Best,<br>Your Gardening App</p>`;
                         const { error: notificationError } = await supabase
                             .from("notifications")
