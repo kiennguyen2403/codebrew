@@ -4,8 +4,13 @@ import { NextResponse } from "next/server";
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { updateSession } from "@/utils/supabase/middleware";
 
-
-const isPublicRoute = createRouteMatcher(["/sign-in(.*)", "/sign-up(.*)", "/api/v1/send-warnings", "api/v1/check-harvesting", "api/v1/weather"]);
+const isPublicRoute = createRouteMatcher([
+  "/sign-in(.*)",
+  "/sign-up(.*)",
+  "/api/v1/send-warnings",
+  "api/v1/check-harvesting",
+  "api/v1/weather",
+]);
 
 export default clerkMiddleware(async (auth, req: NextRequest) => {
   const { userId, sessionClaims } = await auth();
@@ -15,7 +20,7 @@ export default clerkMiddleware(async (auth, req: NextRequest) => {
 
   // Redirect new users to /onboarding, else redirect authenticated users from root (/) to /garden
   if (userId && req.nextUrl.pathname === "/") {
-    const redirectUrl = isNewUser ? "/onboarding" : "/garden";
+    const redirectUrl = isNewUser ? "/onboarding" : "/profile";
     const homeUrl = new URL(redirectUrl, req.url);
     return NextResponse.redirect(homeUrl);
   }

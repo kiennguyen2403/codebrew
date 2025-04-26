@@ -30,3 +30,25 @@ export const getRemainingGrowTimeString = (remainingDays: number) => {
   if (remainingDays == 30 || remainingDays == 31) return "Ready in a month";
   return `Ready in ${Math.floor(remainingDays)} days`;
 };
+
+export const parseWKTPoint = (wktPoint: string) => {
+  // Check if the input string is a valid WKT point
+  if (!wktPoint.startsWith("0101000020E6100000")) {
+    throw new Error("Invalid WKT point format");
+  }
+
+  // Extract the longitude and latitude from the WKT point
+  const lonHex = wktPoint.slice(18, 34);
+  const latHex = wktPoint.slice(34, 50);
+
+  // Ensure the extracted hex strings are of the correct length
+  if (lonHex.length !== 16 || latHex.length !== 16) {
+    throw new Error("Invalid WKT point data length");
+  }
+
+  // Convert the hexadecimal values to floating-point numbers
+  const lon = parseFloat(Buffer.from(lonHex, "hex").readDoubleLE(0).toFixed(6));
+  const lat = parseFloat(Buffer.from(latHex, "hex").readDoubleLE(0).toFixed(6));
+
+  return { lon, lat };
+};

@@ -84,11 +84,12 @@ const AddPlantModal = () => {
       p={"md"}
       bg={"secondary"}
       miw={"20em"}
+      maw={"50em"}
       style={{
         boxShadow: "0px 0px 20px 0px rgba(0, 0, 0, 0.3)",
       }}
     >
-      <Stack>
+      <Stack w={"100%"}>
         <Flex w={"100%"} justify={"flex-end"} className="close-button">
           <Text
             fw={700}

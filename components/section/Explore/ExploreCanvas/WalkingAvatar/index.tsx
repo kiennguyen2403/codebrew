@@ -22,13 +22,13 @@ const WalkingAvatar = ({ ...user }: WalkingAvatarProps) => {
       <NeighborInfoCardContainer className="info-card" hovered={hovered}>
         <NeighborInfoCard
           id={user.id}
-          name={user.name}
+          name={user.username}
           plantCount={user.plantCount}
           hobbies={user.hobbies}
         />
       </NeighborInfoCardContainer>
       <Image
-        src={user.avatar || PLACEHOLDER_AVATAR}
+        src={user.url || PLACEHOLDER_AVATAR}
         alt="Walking Avatar"
         width={120}
         height={240}

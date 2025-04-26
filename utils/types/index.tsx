@@ -1,15 +1,12 @@
 export interface User {
   id: string;
-  name: string;
-  location: {
-    lon: number;
-    lat: number;
-  };
-  avatar: string;
+  username: string;
+  location: string;
+  url: string;
   gender: string;
   hobbies: string[];
   plantCount: number;
-  whatsappNumber: string;
+  whatsapp: string;
 }
 
 export interface Plant {

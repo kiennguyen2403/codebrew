@@ -82,8 +82,8 @@ const DUMMY_POSTS: PostData[] = [
     content: "Just planted my first tomato seeds! Excited to see them grow.",
     image_url: "",
     is_question: false,
-    createdAt: "2023-10-10",
-    updatedAt: "2023-10-10",
+    createdAt: "2025-04-26",
+    updatedAt: "2025-04-26",
   },
   {
     id: 2,
@@ -91,8 +91,8 @@ const DUMMY_POSTS: PostData[] = [
     content: "Does anyone know how to deal with aphids on roses?",
     image_url: "",
     is_question: true,
-    createdAt: "2023-10-11",
-    updatedAt: "2023-10-11",
+    createdAt: "2025-04-26",
+    updatedAt: "2025-04-26",
   },
   {
     id: 3,
@@ -100,8 +100,8 @@ const DUMMY_POSTS: PostData[] = [
     content: "Harvested a bunch of carrots today! So fresh and sweet.",
     image_url: "",
     is_question: false,
-    createdAt: "2023-10-12",
-    updatedAt: "2023-10-12",
+    createdAt: "2025-04-26",
+    updatedAt: "2025-04-26",
   },
   {
     id: 4,
@@ -109,8 +109,8 @@ const DUMMY_POSTS: PostData[] = [
     content: "What's the best time to plant tulip bulbs?",
     image_url: "",
     is_question: true,
-    createdAt: "2023-10-13",
-    updatedAt: "2023-10-13",
+    createdAt: "2025-04-26",
+    updatedAt: "2025-04-26",
   },
   {
     id: 5,
@@ -118,8 +118,8 @@ const DUMMY_POSTS: PostData[] = [
     content: "My sunflowers are finally blooming! They're so tall!",
     image_url: "",
     is_question: false,
-    createdAt: "2023-10-14",
-    updatedAt: "2023-10-14",
+    createdAt: "2025-04-26",
+    updatedAt: "2025-04-26",
   },
   {
     id: 6,
@@ -127,8 +127,8 @@ const DUMMY_POSTS: PostData[] = [
     content: "Can anyone recommend a good organic fertilizer?",
     image_url: "",
     is_question: true,
-    createdAt: "2023-10-15",
-    updatedAt: "2023-10-15",
+    createdAt: "2025-04-26",
+    updatedAt: "2025-04-26",
   },
   {
     id: 7,
@@ -136,8 +136,8 @@ const DUMMY_POSTS: PostData[] = [
     content: "Just built a new raised bed for my veggies. Can't wait to plant!",
     image_url: "",
     is_question: false,
-    createdAt: "2023-10-16",
-    updatedAt: "2023-10-16",
+    createdAt: "2025-04-26",
+    updatedAt: "2025-04-26",
   },
   {
     id: 8,
@@ -145,8 +145,8 @@ const DUMMY_POSTS: PostData[] = [
     content: "How do you keep squirrels away from your garden?",
     image_url: "",
     is_question: true,
-    createdAt: "2023-10-17",
-    updatedAt: "2023-10-17",
+    createdAt: "2025-04-26",
+    updatedAt: "2025-04-26",
   },
   {
     id: 9,
@@ -154,8 +154,8 @@ const DUMMY_POSTS: PostData[] = [
     content: "Picked my first batch of strawberries today. So delicious!",
     image_url: "",
     is_question: false,
-    createdAt: "2023-10-18",
-    updatedAt: "2023-10-18",
+    createdAt: "2025-04-26",
+    updatedAt: "2025-04-26",
   },
 ];
 

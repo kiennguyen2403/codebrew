@@ -1,10 +1,18 @@
 "use client";
 
 import Decoration from "@/components/common/Decoration";
-import { SignIn, SignInButton, SignUp, SignUpButton } from "@clerk/nextjs";
+import {
+  SignedOut,
+  SignIn,
+  SignInButton,
+  SignUp,
+  SignUpButton,
+  SignedIn,
+} from "@clerk/nextjs";
 import { Button, Flex, Stack, Text, Title } from "@mantine/core";
 import Image from "next/image";
 import styled from "styled-components";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -38,8 +46,23 @@ export default function Home() {
           </Text>
         </Stack>
         <Flex justify={"center"} align={"center"} gap={"md"}>
-          <SignInButton />
-          <SignUpButton />
+          <SignedOut>
+            <SignInButton />
+            <SignUpButton />
+          </SignedOut>
+          <SignedIn>
+            <Button
+              color={"primary"}
+              component={Link}
+              href="/profile"
+              variant="outline"
+            >
+              Profile
+            </Button>
+            <Button color={"primary"} component={Link} href="/explore">
+              Explore
+            </Button>
+          </SignedIn>
         </Flex>
       </Stack>
       <Decoration />

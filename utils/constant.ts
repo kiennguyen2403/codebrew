@@ -63,13 +63,13 @@ export const ACHIEVEMENTS: Achievement[] = [
     id: 2,
     title: "Aphid Management Inquiry",
     description: "Asked for advice on dealing with aphids on roses.",
-    unlocked: true,
+    unlocked: false,
   },
   {
     id: 3,
     title: "Carrot Harvest",
     description: "Harvested a bunch of carrots, fresh and sweet.",
-    unlocked: true,
+    unlocked: false,
   },
   {
     id: 4,

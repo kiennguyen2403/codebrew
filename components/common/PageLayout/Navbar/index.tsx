@@ -97,6 +97,9 @@ const Navbar = () => {
               <Button component={Link} href="/garden" h={"100%"} bg={"green"}>
                 {"My Garden"}
               </Button>
+              <Button component={Link} href="/profile" h={"100%"} bg={"pink"}>
+                {"Profile"}
+              </Button>
               <Box h={"100%"} px={"lg"} bg={"white"}>
                 <Stack
                   justify={"center"}

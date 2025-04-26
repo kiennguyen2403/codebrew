@@ -107,7 +107,7 @@ export async function GET(request: NextRequest) {
     // Fetch current user's coordinates
     const { data: currentUser, error: currentError } = await supabase
       .from("users")
-      .select("id, clerk_id, location")
+      .select("*")
       .eq("clerk_id", userId)
       .single();
 
@@ -171,7 +171,6 @@ export async function GET(request: NextRequest) {
         };
       }
     );
-
     return NextResponse.json(usersWithParsedLocation, { status: 200 });
   } catch (e: any) {
     console.error("Server error:", e);

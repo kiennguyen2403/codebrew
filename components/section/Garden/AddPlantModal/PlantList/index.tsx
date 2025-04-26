@@ -43,6 +43,7 @@ const PlantListContainer = styled.div`
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.xs};
   width: 100%;
+  max-width: 100%;
   max-height: 16em;
   overflow-y: scroll;
   padding: ${({ theme }) => theme.spacing.xs};
