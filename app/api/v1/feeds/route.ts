@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
                 user_id,
                 users (
                     clerk_id,
-                    name,
+                    username,
                     url
                 )
             `
