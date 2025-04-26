@@ -32,7 +32,7 @@ const PlantInfo = ({ plant }: PlantInfoProps) => {
           <Text c={"dimmed"} size="sm">
             Weather:
           </Text>
-          <Text>{plant.weather}</Text>
+          <Text>{plant.season}</Text>
         </Stack>
         <Stack gap={"2px"}>
           <Text c={"dimmed"} size="sm">

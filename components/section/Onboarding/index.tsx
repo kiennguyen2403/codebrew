@@ -8,6 +8,7 @@ import { AppDispatch, RootState } from "@/store";
 import { getLocationName } from "@/store/slices/locationSlice";
 import { registerUser } from "@/store/slices/authSlice";
 import { useRouter } from "next/navigation";
+import { notifications } from "@mantine/notifications";
 
 const Onboarding = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -94,10 +95,14 @@ const Onboarding = () => {
           userData: onboardingData,
           onSuccess: () => {
             router.push("/garden");
+            notifications.show({
+              title: "Success",
+              message: "Profile created successfully",
+              color: "green",
+            });
           },
         })
       );
-      console.log(onboardingData);
     }
   };
 

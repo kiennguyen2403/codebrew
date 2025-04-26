@@ -64,7 +64,9 @@ export const registerUser = createAsyncThunk(
         throw new Error("Failed to register user");
       }
       const data = await response.json();
-      onSuccess(); // Call the onSuccess function
+      if (onSuccess) {
+        onSuccess();
+      }
       return data;
     } catch (error) {
       if (error instanceof Error) {

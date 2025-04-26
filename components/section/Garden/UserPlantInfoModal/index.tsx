@@ -55,7 +55,7 @@ const UserPlantInfoModal = ({ isMine = true }: UserPlantInfoModalProps) => {
                 <Text c={"dimmed"} size="sm">
                   Season
                 </Text>
-                <Text fw={700}>{currentPlant.weather}</Text>
+                <Text fw={700}>{currentPlant.season}</Text>
               </Stack>
               <Stack gap={0}>
                 <Text c={"dimmed"} size="sm">
@@ -108,7 +108,7 @@ const UserPlantInfoModal = ({ isMine = true }: UserPlantInfoModalProps) => {
                 <Text c={"dimmed"} size="sm">
                   Season
                 </Text>
-                <Text fw={700}>{neighbourCurrentPlant.weather}</Text>
+                <Text fw={700}>{neighbourCurrentPlant.season}</Text>
               </Stack>
               <Stack gap={0}>
                 <Text c={"dimmed"} size="sm">

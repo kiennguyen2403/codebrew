@@ -11,12 +11,13 @@ import { AppDispatch } from "@/store";
 import { useDispatch } from "react-redux";
 import {
   addPlantToGarden,
+  fetchRecommendedPlants,
   setShowAddPlantModal,
 } from "@/store/slices/gardenSlice";
 import { DateInput } from "@mantine/dates";
 import PlantList from "./PlantList";
 import { Plant } from "@/utils/types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PlantInfo from "./PlantInfo";
 
 const AddPlantModal = () => {
@@ -26,6 +27,10 @@ const AddPlantModal = () => {
   const [selectedPlant, setSelectedPlant] = useState<Plant | null>(null);
   const [plantedAt, setPlantedAt] = useState<Date | null>(new Date());
   const [quantity, setQuantity] = useState<number>(1);
+
+  useEffect(() => {
+    dispatch(fetchRecommendedPlants());
+  }, [gardenId]);
 
   const handleAddPlant = () => {
     if (selectedPlant && plantedAt && quantity) {

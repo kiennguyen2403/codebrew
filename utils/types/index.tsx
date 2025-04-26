@@ -17,7 +17,7 @@ export interface Plant {
   name: string;
   description: string;
   image: string;
-  weather: string;
+  season: string;
   location: string;
   growTime: number;
   seedPrice: string;
