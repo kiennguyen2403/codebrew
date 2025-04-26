@@ -17,10 +17,20 @@ const Navbar = () => {
   const [notifications, setNotifications] = useState<any[]>([]);
   const { user } = useUser();
 
-  useEffect(() => {
-    if (channel.current || user?.id) return;
+  const setupNewTime = async () => {
+    if (channel.current || !user?.id) return;
+
     const client = createClient();
-    channel.current = client.channel(`notification ${user?.id}`, {
+
+    const { data, error } = await client
+      .from("users")
+      .select("id")
+      .eq("clerk_id", user?.id)
+      .single();
+
+    if (error) return;
+
+    channel.current = client.channel(`notification:${user.id}`, {
       config: {
         broadcast: {
           self: true,
@@ -31,24 +41,22 @@ const Navbar = () => {
     channel.current.on(
       "postgres_changes",
       {
-        event: "INSERT",
+        event: "*",
         schema: "public",
         table: "notifications",
-        // filter: `user_id=eq.${user?.id}`,
+        filter: `user_id=eq.${data?.id}`,
       },
       (payload) => {
-        console.log(payload);
-        setNotifications([...notifications, payload.new]);
+        console.log("New notification payload:", payload.new);
+        setNotifications((prev) => [...prev, payload.new]);
       }
     );
+  };
 
-    return () => {
-      if (channel.current) {
-        channel.current.unsubscribe();
-        channel.current = null;
-      }
-    };
+  useEffect(() => {
+    setupNewTime();
   }, [user?.id]);
+
   return (
     <NavbarWrapper>
       <Box style={{ zIndex: 1, border: "1px solid black" }}>
