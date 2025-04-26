@@ -5,6 +5,8 @@ import { createClient } from "@/utils/supabase/server";
 export async function GET(request: NextRequest) {
     try {
         const { userId, getToken } = await auth();
+        const token = await getToken();
+        console.log(token)
         if (!userId) {
             return new Response('Unauthorized', { status: 401 });
         }
@@ -16,6 +18,7 @@ export async function GET(request: NextRequest) {
         if (error) {
             throw error;
         }
+        return new Response(JSON.stringify(data), { status: 200 });
     } catch (e) {
         return Response.json({
             error: e,
