@@ -25,7 +25,6 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
-    console.log("POST")
     try {
         const { userId, content } = await request.json();
         const supabase = await createClient();
@@ -54,6 +53,7 @@ export async function POST(request: NextRequest) {
             if (!emailResponse.ok) {
                 throw Error("Email sent fail")
             }
+            console.log("Email sent successfully");
             return NextResponse.json({ success: true }, { status: 204 });
         } else {
             throw Error("No email found")
