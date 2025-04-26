@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { clerkClient } from "@clerk/nextjs/server";
+import { createClient } from "@/utils/supabase/server";
 
 
 const sendEmail = async (email: string, subject: string, message: string) => {
@@ -22,10 +23,20 @@ const sendEmail = async (email: string, subject: string, message: string) => {
 export async function POST(request: NextRequest) {
     try {
         const { userId, content } = await request.json();
+        const supabase = await createClient();
+        const { data, error } = await supabase
+            .from('users')
+            .select('clerk_id')
+            .eq('id', userId)
+            .single();
+
+        if (error) {
+            throw Error("User not found")
+        }
         let email
 
         const client = await clerkClient()
-        const clerkUser = await client.users.getUser(userId);
+        const clerkUser = await client.users.getUser(data?.clerk_id);
         email = clerkUser.primaryEmailAddress?.emailAddress;
 
         if (email) {
