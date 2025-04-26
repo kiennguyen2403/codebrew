@@ -1,4 +1,6 @@
 export const PLACEHOLDER_AVATAR = "/images/assets/avatar.png";
+export const PLACEHOLDER_PLANT =
+  "https://fljnffgnpjpfnzqnewxj.supabase.co/storage/v1/object/public/images/plants%20/Turnip.png";
 
 export const AVATAR_IMAGES = [
   "https://fljnffgnpjpfnzqnewxj.supabase.co/storage/v1/object/public/images/avatars/Frame%201.png",
@@ -43,3 +45,6 @@ export const HOBBIES = [
   "Volunteering",
   "Astronomy",
 ];
+
+export const ACHIEVEMENT_1_KEY = "urbanteria_achievement_1";
+export const ACHIEVEMENT_2_KEY = "urbanteria_achievement_2";

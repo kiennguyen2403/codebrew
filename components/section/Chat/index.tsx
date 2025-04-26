@@ -1,5 +1,6 @@
 "use client";
 import { createClient } from "@/utils/supabase/client";
+import { Text } from "@mantine/core";
 import { RealtimeChannel } from "@supabase/supabase-js";
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
@@ -49,32 +50,59 @@ const ChatInterface = ({ id }: { id: string }) => {
   };
 
   return (
-    <ChatContainer>
-      <ChatHistory>
-        {messages.map((message, index) => (
-          <Message key={index}>{message}</Message>
-        ))}
-      </ChatHistory>
-      <ChatInputContainer>
-        <ChatInput
-          type="text"
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-          placeholder="Type your message..."
-        />
-        <SendButton onClick={handleSendMessage}>Send</SendButton>
-      </ChatInputContainer>
-    </ChatContainer>
+    <ChatWrapper>
+      <ChatContainer>
+        <ChatContact>
+          <Text>Chatting with @Lebron James</Text>
+        </ChatContact>
+        <ChatHistory>
+          {messages.map((message, index) => (
+            <Message key={index}>{message}</Message>
+          ))}
+        </ChatHistory>
+        <ChatInputContainer>
+          <ChatInput
+            type="text"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            placeholder="Type your message..."
+          />
+          <SendButton onClick={handleSendMessage}>Send</SendButton>
+        </ChatInputContainer>
+      </ChatContainer>
+    </ChatWrapper>
   );
 };
 
 export default ChatInterface;
 
+const ChatWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+`;
+
 const ChatContainer = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  width: 100%;
+  height: 80vh;
+  width: 80%;
+  border: 4px solid ${({ theme }) => theme.colors.secondary};
+  position: relative;
+`;
+
+const ChatContact = styled.div`
+  position: absolute;
+  top: 2em;
+  left: 0em;
+  width: fit-content;
+  height: fit-content;
+  background-color: ${({ theme }) => theme.colors.primary};
+  color: white;
+  padding: 0.5em 1em;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  outline: 4px solid ${({ theme }) => theme.colors.secondary};
 `;
 
 const ChatHistory = styled.div`
@@ -83,6 +111,7 @@ const ChatHistory = styled.div`
   overflow-y: scroll;
   padding: 1em;
   border-bottom: 1px solid #ccc;
+  padding-top: 5em;
 `;
 
 const Message = styled.div`
@@ -108,13 +137,14 @@ const ChatInput = styled.input`
 
 const SendButton = styled.button`
   padding: 0.5em 1em;
-  background-color: #007bff;
+  background-color: ${({ theme }) => theme.colors.primary};
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 
   &:hover {
-    background-color: #0056b3;
+    background-color: ${({ theme }) => theme.colors.primary};
+    filter: brightness(0.95);
   }
 `;

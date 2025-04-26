@@ -54,5 +54,6 @@ const PlantListWrapper = styled.div`
   flex-wrap: wrap;
   gap: ${({ theme }) => theme.spacing.xs};
   width: 100%;
+  max-height: 16em;
   height: fit-content;
 `;

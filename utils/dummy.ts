@@ -89,7 +89,7 @@ export const DUMMY_RECOMMENDED_PLANTS: Plant[] = [
     description: "A leafy green vegetable, perfect for salads",
     image:
       "https://fljnffgnpjpfnzqnewxj.supabase.co/storage/v1/object/public/images/plants%20/Lettuce.png",
-    weather: "Temperate",
+    season: "Temperate",
     location: "Garden",
     growTime: 30,
     seedPrice: "$2.50",
@@ -100,7 +100,7 @@ export const DUMMY_RECOMMENDED_PLANTS: Plant[] = [
     description: "A nutrient-rich leafy green, ideal for healthy meals",
     image:
       "https://fljnffgnpjpfnzqnewxj.supabase.co/storage/v1/object/public/images/plants%20/Spinach.png",
-    weather: "Cool",
+    season: "Cool",
     location: "Field",
     growTime: 30,
     seedPrice: "$1.75",
@@ -111,7 +111,7 @@ export const DUMMY_RECOMMENDED_PLANTS: Plant[] = [
     description: "A versatile vegetable with a rich, meaty texture",
     image:
       "https://fljnffgnpjpfnzqnewxj.supabase.co/storage/v1/object/public/images/plants%20/Eggplant.png",
-    weather: "Warm",
+    season: "Warm",
     location: "Farm",
     growTime: 30,
     seedPrice: "$3.00",
@@ -122,7 +122,7 @@ export const DUMMY_RECOMMENDED_PLANTS: Plant[] = [
     description: "A hardy leafy green, packed with vitamins and minerals",
     image:
       "https://fljnffgnpjpfnzqnewxj.supabase.co/storage/v1/object/public/images/plants%20/Kale.png",
-    weather: "Tropical",
+    season: "Tropical",
     location: "Greenhouse",
     growTime: 30,
     seedPrice: "$5.00",
@@ -133,7 +133,7 @@ export const DUMMY_RECOMMENDED_PLANTS: Plant[] = [
     description: "A cruciferous vegetable known for its health benefits",
     image:
       "https://fljnffgnpjpfnzqnewxj.supabase.co/storage/v1/object/public/images/plants%20/Broccoli.png",
-    weather: "Arid",
+    season: "Arid",
     location: "Desert",
     growTime: 30,
     seedPrice: "$4.00",
@@ -147,7 +147,7 @@ export const DUMMY_NEIGHBOR_PLANTS: UserPlant[] = [
     description: "A cruciferous vegetable known for its health benefits",
     image:
       "https://fljnffgnpjpfnzqnewxj.supabase.co/storage/v1/object/public/images/plants%20/Broccoli.png",
-    weather: "Arid",
+    season: "Arid",
     location: "Desert",
     growTime: 30,
     seedPrice: "$4.00",
@@ -162,7 +162,7 @@ export const DUMMY_NEIGHBOR_PLANTS: UserPlant[] = [
     description: "A leafy green vegetable, perfect for salads",
     image:
       "https://fljnffgnpjpfnzqnewxj.supabase.co/storage/v1/object/public/images/plants%20/Lettuce.png",
-    weather: "Temperate",
+    season: "Temperate",
     location: "Garden",
     growTime: 30,
     seedPrice: "$2.50",
@@ -177,7 +177,7 @@ export const DUMMY_NEIGHBOR_PLANTS: UserPlant[] = [
     description: "A nutrient-rich leafy green, ideal for healthy meals",
     image:
       "https://fljnffgnpjpfnzqnewxj.supabase.co/storage/v1/object/public/images/plants%20/Spinach.png",
-    weather: "Cool",
+    season: "Cool",
     location: "Field",
     growTime: 30,
     seedPrice: "$1.75",
@@ -193,7 +193,7 @@ export const DUMMY_USER_PLANTS: UserPlant[] = [
     description: "A leafy green vegetable, perfect for salads",
     image:
       "https://fljnffgnpjpfnzqnewxj.supabase.co/storage/v1/object/public/images/plants%20/Lettuce.png",
-    weather: "Temperate",
+    season: "Temperate",
     location: "Garden",
     growTime: 30,
     seedPrice: "$2.50",
@@ -208,7 +208,7 @@ export const DUMMY_USER_PLANTS: UserPlant[] = [
     description: "A nutrient-rich leafy green, ideal for healthy meals",
     image:
       "https://fljnffgnpjpfnzqnewxj.supabase.co/storage/v1/object/public/images/plants%20/Spinach.png",
-    weather: "Cool",
+    season: "Cool",
     location: "Field",
     growTime: 30,
     seedPrice: "$1.75",
@@ -221,7 +221,7 @@ export const DUMMY_USER_PLANTS: UserPlant[] = [
     description: "A versatile vegetable with a rich, meaty texture",
     image:
       "https://fljnffgnpjpfnzqnewxj.supabase.co/storage/v1/object/public/images/plants%20/Eggplant.png",
-    weather: "Warm",
+    season: "Warm",
     location: "Farm",
     growTime: 30,
     seedPrice: "$3.00",

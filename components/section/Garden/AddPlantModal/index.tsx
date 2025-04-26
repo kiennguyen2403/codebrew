@@ -11,23 +11,61 @@ import { AppDispatch } from "@/store";
 import { useDispatch } from "react-redux";
 import {
   addPlantToGarden,
+  fetchRecommendedPlants,
   setShowAddPlantModal,
 } from "@/store/slices/gardenSlice";
 import { DateInput } from "@mantine/dates";
 import PlantList from "./PlantList";
 import { Plant } from "@/utils/types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PlantInfo from "./PlantInfo";
+import { notifications } from "@mantine/notifications";
+import { ACHIEVEMENT_1_KEY, ACHIEVEMENT_2_KEY } from "@/utils/constant";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 const AddPlantModal = () => {
   const dispatch: AppDispatch = useDispatch();
+
+  const { gardenPlants } = useSelector((state: RootState) => state.garden);
 
   const [gardenId, setGardenId] = useState<string>("1");
   const [selectedPlant, setSelectedPlant] = useState<Plant | null>(null);
   const [plantedAt, setPlantedAt] = useState<Date | null>(new Date());
   const [quantity, setQuantity] = useState<number>(1);
 
+  const [isFirstPlant, setIsFirstPlant] = useState<boolean>(() => {
+    return !localStorage.getItem(ACHIEVEMENT_1_KEY);
+  });
+  const [isFifthPlant, setIsFifthPlant] = useState<boolean>(() => {
+    return !localStorage.getItem(ACHIEVEMENT_2_KEY);
+  });
+
+  useEffect(() => {
+    dispatch(fetchRecommendedPlants());
+  }, [gardenId]);
+
   const handleAddPlant = () => {
+    if (isFirstPlant && gardenPlants.length === 0) {
+      notifications.show({
+        title: "Congratulations! 🤩",
+        message: "You've planted your FIRST plant!",
+        color: "green",
+      });
+      setIsFirstPlant(false);
+      localStorage.setItem(ACHIEVEMENT_1_KEY, "true");
+    }
+
+    if (isFifthPlant && gardenPlants.length === 4) {
+      notifications.show({
+        title: "Congratulations! 🤩",
+        message: "You've planted your FIFTH plant!",
+        color: "green",
+      });
+      setIsFifthPlant(false);
+      localStorage.setItem(ACHIEVEMENT_2_KEY, "true");
+    }
+
     if (selectedPlant && plantedAt && quantity) {
       dispatch(
         addPlantToGarden(

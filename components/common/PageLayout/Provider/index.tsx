@@ -13,7 +13,7 @@ const ProjectProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <Provider store={store}>
       <MantineProvider defaultColorScheme="light" theme={mantineTheme}>
-        <Notifications />
+        <Notifications position="top-left" />
         <ThemeProvider theme={styledTheme}>
           <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
         </ThemeProvider>

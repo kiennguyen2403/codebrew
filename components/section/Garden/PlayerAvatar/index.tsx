@@ -1,4 +1,4 @@
-import { Box, Text } from "@mantine/core";
+import { Box, Button, Stack, Text } from "@mantine/core";
 import Image from "next/image";
 import styled from "styled-components";
 
@@ -8,6 +8,15 @@ interface PlayerAvatarProps {
 }
 
 const PlayerAvatar = ({ src, name }: PlayerAvatarProps) => {
+  const handleReachOut = () => {
+    window.open(
+      `https://wa.me/6281234567890?text=${encodeURIComponent(
+        `Hello, I'm interested in your garden. Can we meet up to discuss this?`
+      )}`,
+      "_blank"
+    );
+  };
+
   return (
     <PlayerAvatarContainer>
       <Image
@@ -20,9 +29,14 @@ const PlayerAvatar = ({ src, name }: PlayerAvatarProps) => {
         }}
       />
       <Box className="player-name" bg={"secondary"} p={"xs"}>
-        <Text size="xl" fw={700}>
-          {`${name}'s Garden`}
-        </Text>
+        <Stack>
+          <Text size="xl" fw={700}>
+            {`${name}'s Garden`}
+          </Text>
+          <Button variant="primary" onClick={handleReachOut}>
+            {"Reach Out"}
+          </Button>
+        </Stack>
       </Box>
     </PlayerAvatarContainer>
   );

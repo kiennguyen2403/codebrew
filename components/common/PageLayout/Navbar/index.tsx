@@ -5,7 +5,7 @@ import { SignedIn } from "@clerk/nextjs";
 import { SignUpButton } from "@clerk/nextjs";
 import { SignedOut } from "@clerk/nextjs";
 import { SignInButton } from "@clerk/nextjs";
-import { Box, Button, Flex } from "@mantine/core";
+import { Box, Button, Flex, Stack } from "@mantine/core";
 import { RealtimeChannel } from "@supabase/supabase-js";
 import Image from "next/image";
 import Link from "next/link";
@@ -32,11 +32,12 @@ const Navbar = () => {
       "postgres_changes",
       {
         event: "INSERT",
-        schema: "notifications",
-        table: "messages",
-        filter: `user_id=eq.${user?.id}`,
+        schema: "public",
+        table: "notifications",
+        // filter: `user_id=eq.${user?.id}`,
       },
       (payload) => {
+        console.log(payload);
         setNotifications([...notifications, payload.new]);
       }
     );
@@ -67,25 +68,33 @@ const Navbar = () => {
               objectFit="contain"
             />
           </LogoContainer>
-          <Flex
-            direction={"row"}
-            gap={"md"}
-            justify={"flex-end"}
-            align={"center"}
-            px={"md"}
-          >
-            <Button component={Link} href="/explore">
-              {"Explore"}
-            </Button>
-            <Button component={Link} href="/garden">
-              {"My Garden"}
-            </Button>
-            <SignedOut>
-              <SignInButton />
-              <SignUpButton />
-            </SignedOut>
+          <Flex direction={"row"} justify={"flex-end"} align={"center"}>
+            <Flex px={"lg"} align={"center"} gap={"md"}>
+              <SignedOut>
+                <SignInButton />
+                <SignUpButton />
+              </SignedOut>
+            </Flex>
             <SignedIn>
-              <UserButton />
+              <Button component={Link} href="/feed" h={"100%"} bg={"purple"}>
+                {"What's New"}
+              </Button>
+              <Button component={Link} href="/explore" h={"100%"} bg={"cyan"}>
+                {"Explore"}
+              </Button>
+              <Button component={Link} href="/garden" h={"100%"} bg={"green"}>
+                {"My Garden"}
+              </Button>
+              <Box h={"100%"} px={"lg"} bg={"white"}>
+                <Stack
+                  justify={"center"}
+                  align={"center"}
+                  w={"100%"}
+                  h={"100%"}
+                >
+                  <UserButton />
+                </Stack>
+              </Box>
             </SignedIn>
           </Flex>
         </Flex>

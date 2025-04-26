@@ -75,9 +75,10 @@ export const fetchGardenPlants =
 export const fetchRecommendedPlants = () => async (dispatch: AppDispatch) => {
   dispatch(setLoading(true));
   try {
-    const response = await fetch(`/api/recommended-plants`);
+    const response = await fetch(`/api/v1/plants/recommendation`);
     const data = await response.json();
-    dispatch(setRecommendedPlants(data));
+    console.log(data);
+    dispatch(setRecommendedPlants(data.recommendedPlants));
   } catch (error) {
     dispatch(
       setError(

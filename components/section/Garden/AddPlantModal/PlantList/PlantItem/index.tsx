@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Image from "next/image";
+import { PLACEHOLDER_PLANT } from "@/utils/constant";
 
 interface PlantItemProps {
   id: number;
@@ -21,7 +22,12 @@ const PlantItem = ({
       selected={selected.toString()}
       onClick={() => handleSelect(id)}
     >
-      <Image src={image} alt={name} width={120} height={120} />
+      <Image
+        src={image || PLACEHOLDER_PLANT}
+        alt={name}
+        width={120}
+        height={120}
+      />
     </PlantItemContainer>
   );
 };
@@ -33,8 +39,8 @@ const PlantItemContainer = styled.div<{ selected: string }>`
   justify-content: center;
   align-items: center;
 
-  width: 4em;
-  height: 4em;
+  width: 5em;
+  height: 5em;
 
   & > img {
     width: 90%;

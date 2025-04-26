@@ -49,7 +49,7 @@ export const registerUser = createAsyncThunk(
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name: userData.name,
+          username: userData.name,
           gender: userData.gender,
           whatsapp: userData.whatsappNumber,
           location: {
@@ -64,7 +64,9 @@ export const registerUser = createAsyncThunk(
         throw new Error("Failed to register user");
       }
       const data = await response.json();
-      onSuccess(); // Call the onSuccess function
+      if (onSuccess) {
+        onSuccess();
+      }
       return data;
     } catch (error) {
       if (error instanceof Error) {

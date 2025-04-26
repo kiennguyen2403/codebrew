@@ -83,6 +83,7 @@ const WalkingAvatarContainer = styled.div<{
   ${({ hovered }) =>
     hovered &&
     `
+    z-index: 100;
     animation-play-state: paused;
     .info-card {
       animation-play-state: paused;

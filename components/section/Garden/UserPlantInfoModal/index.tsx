@@ -19,11 +19,11 @@ const UserPlantInfoModal = ({ isMine = true }: UserPlantInfoModalProps) => {
     (state: RootState) => state.neighbourGarden
   );
 
-  if (!currentPlant || !neighbourCurrentPlant) {
+  if (!currentPlant && !neighbourCurrentPlant) {
     return null;
   }
 
-  if (isMine) {
+  if (isMine && currentPlant) {
     return (
       <UserPlantInfoModalContainer>
         <Box bg={"secondary"} p={"md"}>
@@ -55,7 +55,7 @@ const UserPlantInfoModal = ({ isMine = true }: UserPlantInfoModalProps) => {
                 <Text c={"dimmed"} size="sm">
                   Season
                 </Text>
-                <Text fw={700}>{currentPlant.weather}</Text>
+                <Text fw={700}>{currentPlant.season}</Text>
               </Stack>
               <Stack gap={0}>
                 <Text c={"dimmed"} size="sm">
@@ -75,56 +75,59 @@ const UserPlantInfoModal = ({ isMine = true }: UserPlantInfoModalProps) => {
       </UserPlantInfoModalContainer>
     );
   }
-  return (
-    <UserPlantInfoModalContainer>
-      <Box bg={"secondary"} p={"md"}>
-        <Stack>
-          <Text fw={700} size={"lg"}>
-            {neighbourCurrentPlant.name}
-          </Text>
-          <Text
-            fw={700}
-            c={
-              calculateRemainingGrowTime(
-                neighbourCurrentPlant.plantedDate,
-                neighbourCurrentPlant.growTime
-              ) <= 0
-                ? "pink"
-                : "black"
-            }
-          >
-            {getRemainingGrowTimeString(
-              calculateRemainingGrowTime(
-                neighbourCurrentPlant.plantedDate,
-                neighbourCurrentPlant.growTime
-              )
-            )}
-          </Text>
-          <Text>{neighbourCurrentPlant.description}</Text>
-          <Flex gap={"md"}>
-            <Stack gap={0}>
-              <Text c={"dimmed"} size="sm">
-                Season
-              </Text>
-              <Text fw={700}>{neighbourCurrentPlant.weather}</Text>
-            </Stack>
-            <Stack gap={0}>
-              <Text c={"dimmed"} size="sm">
-                Location
-              </Text>
-              <Text fw={700}>{neighbourCurrentPlant.location}</Text>
-            </Stack>
-          </Flex>
-          <Stack gap={0}>
-            <Text c={"dimmed"} size="sm">
-              Seed Price
+
+  if (!isMine && neighbourCurrentPlant) {
+    return (
+      <UserPlantInfoModalContainer>
+        <Box bg={"secondary"} p={"md"}>
+          <Stack>
+            <Text fw={700} size={"lg"}>
+              {neighbourCurrentPlant.name}
             </Text>
-            <Text fw={700}>{neighbourCurrentPlant.seedPrice}</Text>
+            <Text
+              fw={700}
+              c={
+                calculateRemainingGrowTime(
+                  neighbourCurrentPlant.plantedDate,
+                  neighbourCurrentPlant.growTime
+                ) <= 0
+                  ? "pink"
+                  : "black"
+              }
+            >
+              {getRemainingGrowTimeString(
+                calculateRemainingGrowTime(
+                  neighbourCurrentPlant.plantedDate,
+                  neighbourCurrentPlant.growTime
+                )
+              )}
+            </Text>
+            <Text>{neighbourCurrentPlant.description}</Text>
+            <Flex gap={"md"}>
+              <Stack gap={0}>
+                <Text c={"dimmed"} size="sm">
+                  Season
+                </Text>
+                <Text fw={700}>{neighbourCurrentPlant.season}</Text>
+              </Stack>
+              <Stack gap={0}>
+                <Text c={"dimmed"} size="sm">
+                  Location
+                </Text>
+                <Text fw={700}>{neighbourCurrentPlant.location}</Text>
+              </Stack>
+            </Flex>
+            <Stack gap={0}>
+              <Text c={"dimmed"} size="sm">
+                Seed Price
+              </Text>
+              <Text fw={700}>{neighbourCurrentPlant.seedPrice}</Text>
+            </Stack>
           </Stack>
-        </Stack>
-      </Box>
-    </UserPlantInfoModalContainer>
-  );
+        </Box>
+      </UserPlantInfoModalContainer>
+    );
+  }
 };
 
 export default UserPlantInfoModal;
@@ -138,4 +141,10 @@ const UserPlantInfoModalContainer = styled.div`
   pointer-events: none;
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.25);
   border: 2px solid black;
+
+  @media (max-width: 768px) {
+    right: 1em;
+    bottom: 2em;
+    top: auto;
+  }
 `;
