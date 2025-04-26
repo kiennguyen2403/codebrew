@@ -128,7 +128,6 @@ export async function GET(request: NextRequest) {
                         notificationCount++;
                     }
 
-                    // Fetch friends to notify
                     const { data: friends, error: friendsError } = await supabase
                         .from("friends")
                         .select("friend_id, users!friends_friend_id_fkey(clerk_id)")
