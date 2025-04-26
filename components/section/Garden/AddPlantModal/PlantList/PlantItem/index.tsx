@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Image from "next/image";
-import { PLACEHOLDER_AVATAR } from "@/utils/constant";
+import { PLACEHOLDER_PLANT } from "@/utils/constant";
 
 interface PlantItemProps {
   id: number;
@@ -23,7 +23,7 @@ const PlantItem = ({
       onClick={() => handleSelect(id)}
     >
       <Image
-        src={image || PLACEHOLDER_AVATAR}
+        src={image || PLACEHOLDER_PLANT}
         alt={name}
         width={120}
         height={120}

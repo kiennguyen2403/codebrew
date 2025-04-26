@@ -45,3 +45,19 @@ export interface RegisterUser {
   hobbies: string[];
   avatar: string;
 }
+
+export interface PostData {
+  id: number;
+  userId: string;
+  content: string;
+  image_url?: string;
+  is_question?: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CreatePostData {
+  content: string;
+  image_url?: string;
+  is_question?: boolean;
+}

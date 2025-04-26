@@ -12,7 +12,11 @@ const nextConfig: NextConfig = {
     "@mantine/dates",
   ],
   images: {
-    domains: ["fljnffgnpjpfnzqnewxj.supabase.co"],
+    domains: [
+      "fljnffgnpjpfnzqnewxj.supabase.co",
+      "via.placeholder.com",
+      "images.unsplash.com",
+    ],
   },
 };
 
