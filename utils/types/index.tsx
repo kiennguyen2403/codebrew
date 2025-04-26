@@ -61,3 +61,11 @@ export interface CreatePostData {
   image_url?: string;
   is_question?: boolean;
 }
+
+export interface Achievement {
+  id: number;
+  title: string;
+  description: string;
+  unlockedAt?: string;
+  unlocked: boolean;
+}

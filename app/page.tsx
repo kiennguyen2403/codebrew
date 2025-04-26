@@ -30,11 +30,11 @@ export default function Home() {
         </LogoImage>
 
         <Stack gap={"0"} ta={"center"}>
-          <Title c={"primary"} my={0}>
+          {/* <Title c={"primary"} my={0}>
             {"Growing Roots, Together"}
-          </Title>
+          </Title> */}
           <Text>
-            {"We’re digital community platform that gamifies urban gardening."}
+            {"We’re a digital community platform that gamifies urban farming."}
           </Text>
         </Stack>
         <Flex justify={"center"} align={"center"} gap={"md"}>

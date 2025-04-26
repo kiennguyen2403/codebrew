@@ -43,7 +43,7 @@ export const DUMMY_USERS: User[] = [
   },
   {
     id: "4",
-    name: "Bob Brown",
+    name: "Lebron James",
     avatar: AVATAR_IMAGES[3],
     gender: "male",
     location: {

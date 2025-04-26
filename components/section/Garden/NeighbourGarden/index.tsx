@@ -22,7 +22,7 @@ const NeighbourGarden = () => {
         <NeighbourGardenPlot />
       </PlotContainer>
       <AvatarContainer>
-        <PlayerAvatar src={AVATAR_IMAGES[3]} name={"LeBron James"} />
+        <PlayerAvatar src={AVATAR_IMAGES[3]} name={"LeBron James"} id="1" />
       </AvatarContainer>
     </GardenCanvas>
   );

@@ -21,7 +21,7 @@ const UserGarden = () => {
         <GardenPlot />
       </PlotContainer>
       <AvatarContainer>
-        <PlayerAvatar src={AVATAR_IMAGES[0]} name={"Kevin Bryan"} />
+        <PlayerAvatar src={AVATAR_IMAGES[0]} name={"Kevin Bryan"} isMe={true} />
       </AvatarContainer>
       {showAddPlantModal && (
         <AddPlantModalContainer>
